@@ -2015,4 +2015,3 @@ j.doe:!:20334:0:99999:7:::
 Notice the exclamation mark (!) at the beginning of the password field - this indicates the account is locked. The original password hash is preserved after the ! for potential future unlocking.
 
 --- 
-

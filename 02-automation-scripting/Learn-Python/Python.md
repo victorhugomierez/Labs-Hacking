@@ -2102,3 +2102,1106 @@ print(num_1 + num_2) # the program returns 1221
 print(my_input * 3) # Expected output: hellohellohello 
 ```
 
+
+# Comparison: equality operator
+
+Question: are two values equal?
+
+To ask this question, you use the == (equal equal) operator.
+
+Don't forget this important distinction:
+
+    = is an assignment operator, e.g., a = b assigns a with the value of b;
+    == is the question are these values equal? so a == b compares a and b.
+
+It is a binary operator with left-sided binding. It needs two arguments and checks if they are equal.
+
+
+##  Exercises
+
+Now let's ask a few questions. Try to guess the answers.
+
+Question #1: What is the result of the following comparison?
+
+2 == 2
+
+True - of course, 2 is equal to 2. Python will answer True (remember this pair of predefined literals, True and False - they're Python keywords, too).
+
+Question #2: What is the result of the following comparison?
+
+2 == 2.
+
+This question is not as easy as the first one. Luckily, Python is able to convert the integer value into its real equivalent, and consequently, the answer is True.
+
+Question #3: What is the result of the following comparison?
+
+1 == 2
+
+This should be easy. The answer will be (or rather, always is) False.
+
+
+```
+var == 0
+
+```
+
+Note that we cannot find the answer if we do not know what value is currently stored in the variable var.
+
+If the variable has been changed many times during the execution of your program, or its initial value is entered from the console, the answer to this question can be given only by Python and only at runtime.
+
+Now imagine a programmer who suffers from insomnia, and has to count black and white sheep separately as long as there are exactly twice as many black sheep as white ones.
+
+The question will be as follows:
+
+```python
+black_sheep == 2 * white_sheep
+
+```
+
+Due to the low priority of the == operator, the question shall be treated as equivalent to this one:
+
+```python
+black_sheep == (2 * white_sheep)
+
+```
+
+So, let's practice your understanding of the == operator now – can you guess the output of the code below?
+
+```python
+var = 0  # Assigning 0 to var
+print(var == 0)
+
+var = 1  # Assigning 1 to var
+print(var == 0)
+```
+
+R:
+
+```
+True
+False
+```
+
+# Inequality: the not equal to operator (!=)
+
+The != (not equal to) operator compares the values of two operands, too. Here is the difference: if they are equal, the result of the comparison is False. If they are not equal, the result of the comparison is True.
+
+Now take a look at the inequality comparison below – can you guess the result of this operation?
+
+```python
+var = 0  # Assigning 0 to var
+print(var != 0)
+ 
+var = 1  # Assigning 1 to var
+print(var != 0)
+```
+
+
+## Comparison operators: greater than
+
+You can also ask a comparison question using the > (greater than) operator.
+
+If you want to know if there are more black sheep than white ones, you can write it as follows:
+
+```
+black_sheep > white_sheep  # Greater than
+```
+
+
+True confirms it; False denies it.
+
+
+## Comparison operators: greater than or equal to
+
+The greater than operator has another special, non-strict variant, but it's denoted differently than in classical arithmetic notation: >= (greater than or equal to).
+
+There are two subsequent signs, not one.
+
+Both of these operators (strict and non-strict), as well as the two others discussed in the next section, are binary operators with left-sided binding, and their priority is greater than that shown by == and !=.
+
+If we want to find out whether or not we have to wear a warm hat, we ask the following question:
+
+```python
+centigrade_outside >= 0.0  # Greater than or equal to
+```
+
+## Comparison operators: less than/less than or equal to
+
+As you've probably already guessed, the operators used in this case are: the < (less than) operator and its non-strict sibling: <= (less than or equal to).
+
+Look at this simple example:
+
+```python
+current_velocity_mph < 85  # Less than
+current_velocity_mph <= 85  # Less than or equal to
+ ```
+
+
+We're going to check if there's a risk of being fined by the highway police (the first question is strict, the second isn't).
+
+# Making use of the answers
+
+What can you do with the answer (i.e., the result of a comparison operation) you get from the computer?
+
+There are at least two possibilities: first, you can memorize it (store it in a variable) and make use of it later. How do you do that? Well, you use an arbitrary variable like this:
+
+```
+answer = number_of_lions >= number_of_lionesses
+ ```
+
+
+The content of the variable will tell you the answer to the question asked.
+
+The second possibility is more convenient and far more common: you can use the answer you get to make a decision about the future of the program.
+
+You need a special instruction for this purpose, and we'll discuss it very soon.
+
+Now we need to update our priority table, and put all the new operators into it. It now looks as follows:
+
+| Priority | Operator | Type |
+| :---: | :--- | :--- |
+| 1 | `+`, `-` | unary |
+| 2 | `**` | |
+| 3 | `*`, `/`, `//`, `%` | |
+| 4 | `+`, `-` | binary |
+| 5 | `<`, `<=`, `>`, `>=` | |
+| 6 | `==`, `!=` | |
+
+# Variables ‒ Questions and answers
+Scenario
+
+Using one of the comparison operators in Python, write a simple two-line program that takes the parameter n as input, which is an integer, and prints False if n is less than 100, and True if n is greater than or equal to 100.
+
+Don't create any if blocks (we're going to talk about them very soon). Test your code using the data we've provided for you.
+
+```python
+n = int(imput("Enter number"))
+print  (n >= 100)
+```
+
+#   Conditions and conditional execution
+
+You already know how to ask Python questions, but you still don't know how to make reasonable use of the answers. You have to have a mechanism which will allow you to do something if a condition is met, and not do it if it isn't.
+
+It's just like in real life: you do certain things or you don't when a specific condition is met or not, e.g., you go for a walk if the weather is good, or stay home if it's wet and cold.
+
+To make such decisions, Python offers a special instruction. Due to its nature and its application, it's called a conditional instruction (or conditional statement).
+
+There are several variants of it. We'll start with the simplest, increasing the difficulty slowly.
+
+The first form of a conditional statement, which you can see below is written very informally but figuratively:
+
+```
+if true_or_not:
+    do_this_if_true 
+```
+This conditional statement consists of the following, strictly necessary, elements in this and this order only:
+
+    the if keyword;
+    one or more white spaces;
+    an expression (a question or an answer) whose value will be interpreted solely in terms of True (when its value is non-zero) and False (when it is equal to zero);
+    a colon followed by a newline;
+    an indented instruction or set of instructions (at least one instruction is absolutely required); the indentation may be achieved in two ways – by inserting a particular number of spaces (the recommendation is to use four spaces of indentation), or by using the tab character; note: if there is more than one instruction in the indented part, the indentation should be the same in all lines; even though it may look the same if you use tabs mixed with spaces, it's important to make all indentations exactly the same – Python 3 does not allow the mixing of spaces and tabs for indentation.
+
+How does that statement work?
+
+    If the true_or_not expression represents the truth (i.e., its value is not equal to zero), the indented statement(s) will be executed;
+    if the true_or_not expression does not represent the truth (i.e., its value is equal to zero), the indented statement(s) will be omitted (ignored), and the next executed instruction will be the one after the original indentation level.
+```
+In real life, we often express a desire:
+
+if the weather is good, we'll go for a walk
+
+then, we'll have lunch
+```
+
+As you can see, having lunch is not a conditional activity and doesn't depend on the weather.
+
+Knowing what conditions influence our behavior, and assuming that we have the parameterless functions go_for_a_walk() and have_lunch(), we can write the following snippet:
+
+```python
+ if the_weather_is_good:
+    go_for_a_walk()
+have_lunch() 
+```
+
+* Conditional execution: the if statement
+
+If a certain sleepless Python developer falls asleep when he or she counts 120 sheep, and the sleep-inducing procedure may be implemented as a special function named sleep_and_dream(), the whole code takes the following shape:
+
+```python
+if sheep_counter >= 120: # Evaluate a test expression
+    sleep_and_dream() # Execute if test expression is True
+```
+You can read it as: if sheep_counter is greater than or equal to 120, then fall asleep and dream (i.e., execute the sleep_and_dream function.)
+
+We've said that conditionally executed statements have to be indented. This creates a very legible structure, clearly demonstrating all possible execution paths in the code.
+
+Take a look at the following code:
+```python
+ if sheep_counter >= 120:
+    make_a_bed()
+    take_a_shower()
+    sleep_and_dream()
+feed_the_sheepdogs()
+  
+```
+As you can see, making a bed, taking a shower and falling asleep and dreaming are all executed conditionally – when sheep_counter reaches the desired limit.
+
+Feeding the sheepdogs, however, is always done (i.e., the feed_the_sheepdogs() function is not indented and does not belong to the if block, which means it is always executed.)
+
+Now we're going to discuss another variant of the conditional statement, which also allows you to perform an additional action when the condition is not met.
+
+## Conditional execution: the if-else statement
+
+We started out with a simple phrase which read: If the weather is good, we will go for a walk.
+
+Note: there is not a word about what will happen if the weather is bad. We only know that we won't go outdoors, but what we could do instead is not known. We may want to plan something in case of bad weather, too.
+
+We can say, for example: If the weather is good, we will go for a walk, otherwise we will go to a theater.
+
+Now we know what we'll do if the conditions are met, and we know what we'll do if not everything goes our way. In other words, we have a "Plan B".
+
+Python allows us to express such alternative plans. This is done with a second, slightly more complex form of the conditional statement, the if-else statement:
+
+```python
+if true_or_false_condition:
+    perform_if_condition_true
+else:
+    perform_if_condition_false
+
+```
+Thus, there is a new word: else – this is a keyword.
+
+The part of the code which begins with else says what to do if the condition specified for the if is not met (note the colon after the word).
+
+The if-else execution goes as follows:
+
+    if the condition evaluates to True (its value is not equal to zero), the perform_if_condition_true statement is executed, and the conditional statement comes to an end;
+    if the condition evaluates to False (it is equal to zero), the perform_if_condition_false statement is executed, and the conditional statement comes to an end.
+
+
+## The if-else statement: more conditional execution
+
+By using this form of conditional statement, we can describe our plans as follows:
+```python
+ if the_weather_is_good:
+    go_for_a_walk()
+else:
+    go_to_a_theater()
+have_lunch() 
+```
+
+If the weather is good, we'll go for a walk. Otherwise, we'll go to a theater. No matter if the weather is good or bad, we'll have lunch afterwards (after the walk or after going to the theater).
+
+Everything we've said about indentation works in the same manner inside the else branch:
+
+```python
+if the_weather_is_good:
+    go_for_a_walk()
+    have_fun()
+else:
+    go_to_a_theater()
+    enjoy_the_movie()
+have_lunch()
+
+```
+## Nested if-else statements
+
+Now let's discuss two special cases of the conditional statement.
+
+First, consider the case where the instruction placed after the if is another if.
+
+Read what we have planned for this Sunday. If the weather is fine, we'll go for a walk. If we find a nice restaurant, we'll have lunch there. Otherwise, we'll eat a sandwich. If the weather is poor, we'll go to the theater. If there are no tickets, we'll go shopping in the nearest mall.
+
+Let's write the same in Python. Consider carefully the code here:
+
+```python
+if the_weather_is_good:
+    if nice_restaurant_is_found:
+        have_lunch()
+    else:
+        eat_a_sandwich()
+else:
+    if tickets_are_available:
+        go_to_the_theater()
+    else:
+        go_shopping()
+```
+Here are two important points:
+
+    this use of the if statement is known as nesting; remember that every else refers to the if which lies at the same indentation level; you need to know this to determine how the ifs and elses pair up;
+    consider how the indentation improves readability, and makes the code easier to understand and trace.
+
+
+## The elif statement
+
+The second special case introduces another new Python keyword: elif. As you probably suspect, it's a shorter form of else if.
+
+elif is used to check more than just one condition, and to stop when the first statement which is true is found.
+
+Our next example resembles nesting, but the similarities are very slight. Again, we'll change our plans and express them as follows: If the weather is fine, we'll go for a walk, otherwise if we get tickets, we'll go to the theater, otherwise if there are free tables at the restaurant, we'll go for lunch; if all else fails, we'll stay home and play chess.
+
+Have you noticed how many times we've used the word otherwise? This is the stage where the elif keyword plays its role.
+
+Let's write the same scenario using Python:
+
+```python
+if the_weather_is_good:
+    go_for_a_walk()
+elif tickets_are_available:
+    go_to_the_theater()
+elif table_is_available:
+    go_for_lunch()
+else:
+    play_chess_at_home()
+
+```
+The way to assemble subsequent if-elif-else statements is sometimes called a cascade.
+
+Notice again how the indentation improves the readability of the code.
+
+Some additional attention has to be paid in this case:
+
+    you mustn't use else without a preceding if;
+    else is always the last branch of the cascade, regardless of whether you've used elif or not;
+    else is an optional part of the cascade, and may be omitted;
+    if there is an else branch in the cascade, only one of all the branches is executed;
+    if there is no else branch, it's possible that none of the available branches is executed.
+
+This may sound a little puzzling, but hopefully some simple examples will help shed more light.
+
+
+## Analyzing code samples
+
+Now we're going to show you some simple yet complete programs. We won't explain them in detail, because we consider the comments (and the variable names) inside the code to be sufficient guides.
+
+All the programs solve the same problem – they find the largest of several numbers and print it out.
+
+Example 1:
+
+We'll start with the simplest case – how to identify the larger of two numbers:
+
+```python
+# Read two numbers
+number1 = int(input("Enter the first number: "))
+number2 = int(input("Enter the second number: "))
+
+# Choose the larger number
+if number1 > number2:
+    larger_number = number1
+else:
+    larger_number = number2
+
+# Print the result
+print("The larger number is:", larger_number)
+
+```
+The above snippet should be clear – it reads two integer values, compares them, and finds which is the larger.
+
+Example 2:
+
+Now we're going to show you one intriguing fact. Python has an interesting feature – look at the code below:
+
+```python
+ # Read two numbers
+number1 = int(input("Enter the first number: "))
+number2 = int(input("Enter the second number: "))
+ 
+# Choose the larger number
+if number1 > number2: larger_number = number1
+else: larger_number = number2
+ 
+# Print the result
+print("The larger number is:", larger_number) 
+  ```
+
+  Note: if any of the if-elif-else branches contains just one instruction, you may code it in a more comprehensive form (you don't need to make an indented line after the keyword, but just continue the line after the colon).
+
+This style, however, may be misleading, and we're not going to use it in our future programs, but it's definitely worth knowing if you want to read and understand someone else's programs.
+
+There are no other differences in the code.
+
+Example 3:
+
+It's time to complicate the code – let's find the largest of three numbers. Will it enlarge the code? A bit.
+
+We assume that the first value is the largest. Then we verify this hypothesis with the two remaining values.
+
+Look at the code below:
+
+```python
+# Read three numbers
+number1 = int(input("Enter the first number: "))
+number2 = int(input("Enter the second number: "))
+number3 = int(input("Enter the third number: "))
+
+# We temporarily assume that the first number
+# is the largest one.
+# We will verify this soon.
+largest_number = number1
+
+# We check if the second number is larger than the current largest_number
+# and update the largest_number if needed.
+if number2 > largest_number:
+    largest_number = number2
+
+# We check if the third number is larger than the current largest_number
+# and update the largest_number if needed.
+if number3 > largest_number:
+    largest_number = number3
+
+# Print the result
+print("The largest number is:", largest_number)
+
+
+```
+
+##   Pseudocode and introduction to loops
+
+You should now be able to write a program which finds the largest of four, five, six, or even ten numbers.
+
+You already know the scheme, so extending the size of the problem will not be particularly complex.
+
+But what happens if we ask you to write a program that finds the largest of two hundred numbers? Can you imagine the code?
+
+You'll need two hundred variables. If two hundred variables isn't bad enough, try to imagine searching for the largest of a million numbers.
+
+Imagine a code that contains 199 conditional statements and two hundred invocations of the input() function. Luckily, you don't need to deal with that. There's a simpler approach.
+
+We'll ignore the requirements of Python syntax for now, and try to analyze the problem without thinking about the real programming. In other words, we'll try to write the algorithm, and when we're happy with it, we'll implement it.
+
+In this case, we'll use a kind of notation which is not an actual programming language (it can be neither compiled nor executed), but it is formalized, concise and readable. It's called pseudocode.
+
+Let's look at our pseudocode below:
+
+```python
+ largest_number = -999999999
+number = int(input())
+if number == -1:
+    print(largest_number)
+    exit()
+if number > largest_number:
+    largest_number = number
+# Go to line 02
+  ```
+
+
+What's happening in it?
+
+Firstly, we can simplify the program if, at the very beginning of the code, we assign the variable largest_number with a value which will be smaller than any of the entered numbers. We'll use -999999999 for that purpose.
+
+Secondly, we assume that our algorithm will not know in advance how many numbers will be delivered to the program. We expect that the user will enter as many numbers as she/he wants – the algorithm will work well with one hundred and with one thousand numbers. How do we do that?
+
+We make a deal with the user: when the value -1 is entered, it will be a sign that there are no more data and the program should end its work.
+
+Otherwise, if the entered value is not equal to -1, the program will read another number, and so on.
+
+The trick is based on the assumption that any part of the code can be performed more than once – precisely, as many times as needed.
+
+Performing a certain part of the code more than once is called a loop. The meaning of this term is probably obvious to you.
+
+Lines 02 through 08 make a loop. We'll pass through them as many times as needed to review all the entered values.
+
+Can you use a similar structure in a program written in Python? Yes, you can.
+
+
+###  Extra Info  
+
+Python often comes with a lot of built-in functions that will do the work for you. For example, to find the largest number of all, you can use a Python built-in function called max(). You can use it with multiple arguments. Analyze the code below:
+
+```python
+# Read three numbers.
+number1 = int(input("Enter the first number: "))
+number2 = int(input("Enter the second number: "))
+number3 = int(input("Enter the third number: "))
+
+# Check which one of the numbers is the greatest
+# and pass it to the largest_number variable.
+
+largest_number = max(number1, number2, number3)
+
+# Print the result.
+print("The largest number is:", largest_number)
+
+```
+By the same fashion, you can use the min() function to return the lowest number. You can rebuild the above code and experiment with it in the Sandbox.
+
+We're going to talk about these (and many other) functions soon. For the time being, our focus will be on conditional execution and loops to let you gain more confidence in programming and teach you the skills that will let you fully understand and apply the two concepts in your code. So, for now, we're not taking any shortcuts.
+
+#    LAB   Comparison operators and conditional execution
+
+Scenario
+
+Spathiphyllum, more commonly known as a peace lily or white sail plant, is one of the most popular indoor houseplants that filters out harmful toxins from the air. Some of the toxins that it neutralizes include benzene, formaldehyde, and ammonia.
+
+Imagine that your computer program loves these plants. Whenever it receives an input in the form of the word Spathiphyllum, it involuntarily shouts to the console the following string: "Spathiphyllum is the best plant ever!"
+
+Write a program that utilizes the concept of conditional execution, takes a string as input, and:
+
+    prints the sentence "Yes - Spathiphyllum is the best 
+    plant ever!" to the screen if the inputted string is "Spathiphyllum" (upper-case)
+    prints "No, I want a big Spathiphyllum!" if the inputted string is "spathiphyllum" (lower-case)
+    prints "Spathiphyllum! Not [input]!" otherwise. Note: [input] is the string taken as input.
+
+Test your code using the data we've provided for you. And get yourself a Spathiphyllum, too!
+
+```python
+name = input("Enter flower name: ")
+
+if name == "Spathiphyllum":
+    print("Yes - Spathiphyllum is the best plant ever!")
+elif name == "spathiphyllum":
+    print("No, I want a big Spathiphyllum!")
+else:
+    print("Spathiphyllum! Not", name + "!")
+```
+
+#   LAB   Essentials of the if-else statement
+Scenario
+
+Once upon a time there was a land – a land of milk and honey, inhabited by happy and prosperous people. The people paid taxes, of course – their happiness had limits. The most important tax, called the Personal Income Tax (PIT for short) had to be paid once a year, and was evaluated using the following rule:
+
+    if the citizen's income was not higher than 85,528 thalers, the tax was equal to 18% of the income minus 556 thalers and 2 cents (this was what they called tax relief)
+    if the income was higher than this amount, the tax was equal to 14,839 thalers and 2 cents, plus 32% of the surplus over 85,528 thalers.
+
+Your task is to write a tax calculator.
+
+    It should accept one floating-point value: the income.
+    Next, it should print the calculated tax, rounded to full thalers. There's a function named round() which will do the rounding for you – you'll find it in the skeleton code in the editor.
+
+Note: this happy country never returned any money to its citizens. If the calculated tax was less than zero, it would only mean no tax at all (the tax was equal to zero). Take this into consideration during your calculations.
+
+Look at the code in the editor – it only reads one input value and outputs a result, so you need to complete it with some smart calculations.
+
+Test your code using the data we've provided.
+
+```python
+income = float(input("Enter the annual income: "))
+
+# 1. Calcular el impuesto base según el nivel de ingresos
+if income <= 85528:
+    tax = income * 0.18 - 556.02
+else:
+    # El impuesto para ingresos superiores es 14,839.02 más el 32% del excedente de 85528
+    tax = 14839.02 + (income - 85528) * 0.32
+
+# 2. Validar que el impuesto no sea negativo (exención fiscal)
+if tax < 0:
+    tax = 0.0
+
+# 3. Redondear y mostrar el resultado
+tax = round(tax, 0)
+print("The tax is:", tax, "thalers")income = float(input("Enter the annual income: "))
+
+ ```
+
+
+ ##   LAB   Essentials of the if-elif-else statement
+Scenario
+
+As you surely know, due to some astronomical reasons, years may be leap or common. The former are 366 days long, while the latter are 365 days long.
+
+Since the introduction of the Gregorian calendar (in 1582), the following rule is used to determine the kind of year:
+
+    if the year number isn't divisible by four, it's a common year;
+    otherwise, if the year number isn't divisible by 100, it's a leap year;
+    otherwise, if the year number isn't divisible by 400, it's a common year;
+    otherwise, it's a leap year.
+
+Look at the code in the editor – it only reads a year number, and needs to be completed with the instructions implementing the test we've just described.
+
+The code should output one of two possible messages, which are Leap year or Common year, depending on the value entered.
+
+It would be good to verify if the entered year falls into the Gregorian era, and output a warning otherwise: Not within the Gregorian calendar period. Tip: use the != and % operators.
+
+Test your code using the data we've provided.
+
+```python
+year = int(input("Enter a year: "))
+
+if year < 1582:
+	print("Not within the Gregorian calendar period")
+else:
+	if year % 4 != 0:
+		print("Common year")
+	elif year % 100 != 0:
+		print("Leap year")
+	elif year % 400 != 0:
+		print("Common year")
+	else:
+		print("Leap year")
+
+```
+
+## SECTION SUMMARY
+
+1. The comparison (otherwise known as relational) operators are used to compare values. The table below illustrates how the comparison operators work, assuming that x = 0, y = 1, and z = 0:
+
+| Operator | Description | Example |
+| :---: | :--- | :--- |
+| `==` | returns `True` if operands' values are equal, and `False` otherwise | `x == y  # False`<br>`x == z  # True` |
+| `!=` | returns `True` if operands' values are not equal, and `False` otherwise | `x != y  # True`<br>`x != z  # False` |
+| `>` | `True` if the left operand's value is greater than the right operand's value, and `False` otherwise | `x > y  # False`<br>`y > z  # True` |
+| `<` | `True` if the left operand's value is less than the right operand's value, and `False` otherwise | `x < y  # True`<br>`y < z  # False` |
+| `>=` | `True` if the left operand's value is greater than or equal to the right operand's value, and `False` otherwise | `x >= y  # False`<br>`x >= z  # True`<br>`y >= z  # True` |
+| `<=` | `True` if the left operand's value is less than or equal to the right operand's value, and `False` otherwise | `x <= y  # True`<br>`x <= z  # True`<br>`y <= z  # False` |
+
+
+
+
+2. When you want to execute some code only if a certain condition is met, you can use a conditional statement:
+
+    a single if statement, e.g.:
+
+```python
+ x = 10
+ 
+if x == 10: # condition
+    print("x is equal to 10")  # Executed if the condition is True.
+```
+
+a series of if statements, e.g.:
+
+```python
+ x = 10
+ 
+if x > 5: # condition one
+    print("x is greater than 5")  # Executed if condition one is True.
+ 
+if x < 10: # condition two
+    print("x is less than 10")  # Executed if condition two is True.
+ 
+if x == 10: # condition three
+    print("x is equal to 10")  # Executed if condition three is True.
+```
+
+    Each if statement is tested separately.
+
+    an if-else statement, e.g.:
+
+```python
+ x = 10
+ 
+if x < 10: # condition
+    print("x is less than 10")  # Executed if the condition is True.
+ 
+else:
+    print("x is greater than or equal to 10")  # Executed if the condition is False.
+```
+a series of if statements followed by an else, e.g.:
+
+```python
+ x = 10
+ 
+if x > 5: # condition one
+    print("x is greater than 5")  # Executed if condition one is True.
+ 
+if x < 10: # condition two
+    print("x is less than 10")  # Executed if condition two is True.
+ 
+if x == 10: # condition three
+     print("x is equal to 10")  # Executed if condition three is True.
+  ```
+
+   Each if is tested separately. The body of else is executed if the last if is False.
+
+    The if-elif-else statement, e.g.:
+
+
+```python
+ x = 10
+ 
+if x == 10: # True
+    print("x == 10")
+ 
+if x > 15: # False
+    print("x > 15")
+ 
+elif x > 10: # False
+    print("x > 10")
+ 
+elif x > 5: # True
+    print("x > 5")
+ 
+else:
+    print("else will not be executed")
+```
+
+   If the condition for if is False, the program checks the conditions of the subsequent elif blocks - the first elif block that is True is executed. If all the conditions are False, the else block will be executed.
+
+    Nested conditional statements, e.g.:
+
+```python
+ x = 10
+ 
+if x > 5: # True
+    if x == 6: # False
+        print("nested: x == 6")
+    elif x == 10: # True
+        print("nested: x == 10")
+    else:
+        print("nested: else")
+else:
+    print("else")
+```
+
+# Section 2 – Loops in Python
+
+Looping your code with while
+
+Do you agree with the statement presented below?
+
+```python
+while there is something to do
+    do it
+ ```
+
+
+Note that this record also declares that if there is nothing to do, nothing at all will happen.
+
+In general, in Python, a loop can be represented as follows:
+
+```python
+while
+    instruction
+ ```
+
+
+If you notice some similarities to the if instruction, that's quite all right. Indeed, the syntactic difference is only one: you use the word while instead of the word if.
+
+The semantic difference is more important: when the condition is met, if performs its statements only once; while repeats the execution as long as the condition evaluates to True.
+
+Note: all the rules regarding indentation are applicable here, too. We'll show you this soon.
+
+Look at the algorithm below:
+
+```
+ while conditional_expression:
+    instruction_one
+    instruction_two
+    instruction_three
+    :
+    :
+    instruction_n 
+
+```
+    It is now important to remember that:
+
+    if you want to execute more than one statement inside one while loop, you must (as with if) indent all the instructions in the same way;
+    an instruction or set of instructions executed inside the while loop is called the loop's body;
+    if the condition is False (equal to zero) as early as when it is tested for the first time, the body is not executed even once (note the analogy of not having to do anything if there is nothing to do);
+    the body should be able to change the condition's value, because if the condition is True at the beginning, the body might run continuously to infinity – (notice that doing a thing usually decreases the number of things to do).
+
+# An infinite loop
+
+An infinite loop, also called an endless loop, is a sequence of instructions in a program which repeat indefinitely (loop endlessly.)
+
+Here's an example of a loop that is not able to finish its execution:
+
+```python
+while True:
+    print("I'm stuck inside a loop.")
+
+```
+
+This loop will infinitely print "I'm stuck inside a loop." on the screen.
+  Note  
+
+If you want to get the best learning experience from seeing how an infinite loop behaves, launch IDLE, create a New File, copy-paste the above code, save your file, and run the program. What you will see is the never-ending sequence of "I'm stuck inside a loop." strings printed to the Python console window. To terminate your program, just press Ctrl-C (or Ctrl-Break on some computers). This will cause a **KeyboardInterrupt** exception and let your program get out of the loop. We'll talk about it later in the course.
+
+Let's go back to the sketch of the algorithm we showed you recently. We're going to show you how to use this newly learned loop to find the largest number from a large set of entered data.
+
+Analyze the program carefully. See where the loop starts (line 8). Locate the loop's body and find out how the body is exited:
+
+```python
+# Store the current largest number here.
+largest_number = -999999999
+
+# Input the first value.
+number = int(input("Enter a number or type -1 to stop: "))
+
+# If the number is not equal to -1, continue.
+while number != -1:
+    # Is number larger than largest_number?
+    if number > largest_number:
+        # Yes, update largest_number.
+        largest_number = number
+    # Input the next number.
+    number = int(input("Enter a number or type -1 to stop: "))
+
+# Print the largest number.
+print("The largest number is:", largest_number)
+
+```
+
+# The while loop: more examples
+
+Let's look at another example employing the while loop. Follow the comments to find out the idea and the solution.
+
+```python
+# A program that reads a sequence of numbers
+# and counts how many numbers are even and how many are odd.
+# The program terminates when zero is entered.
+
+odd_numbers = 0
+even_numbers = 0
+
+# Read the first number.
+number = int(input("Enter a number or type 0 to stop: "))
+
+# 0 terminates execution.
+while number != 0:
+    # Check if the number is odd.
+    if number % 2 == 1:
+        # Increase the odd_numbers counter.
+        odd_numbers += 1
+    else:
+        # Increase the even_numbers counter.
+        even_numbers += 1
+    # Read the next number.
+    number = int(input("Enter a number or type 0 to stop: "))
+
+# Print results.
+print("Odd numbers count:", odd_numbers)
+print("Even numbers count:", even_numbers)
+
+```
+Certain expressions can be simplified without changing the program's behavior.
+
+Try to recall how Python interprets the truth of a condition, and note that these two forms are equivalent:
+
+while number != 0: and while number:.
+
+The condition that checks if a number is odd can be coded in these equivalent forms, too:
+
+if number % 2 == 1: and if number % 2:.
+
+## Using a counter variable to exit a loop
+
+Look at the snippet below:
+
+```python
+counter = 5
+while counter != 0:
+    print("Inside the loop.", counter)
+    counter -= 1
+print("Outside the loop.", counter)
+
+```
+**
+```python
+counter = 5
+while counter != 0:
+    print("Inside the loop.", counter)
+    counter -= 1
+print("Outside the loop.", counter)
+
+```
+This code is intended to print the string "Inside the loop." and the value stored in the counter variable during a given loop exactly five times. Once the condition has not been met (the counter variable has reached 0), the loop is exited, and the message "Outside the loop." as well as the value stored in counter is printed.
+
+But there's one thing that can be written more compactly – the condition of the while loop.
+
+Can you see the difference?
+
+```python
+ counter = 5
+while counter:
+    print("Inside the loop.", counter)
+    counter -= 1
+print("Outside the loop.", counter)
+  
+```
+  
+
+Is it more compact than previously? A bit. Is it more legible? That's disputable.
+  REMEMBER  
+
+Don't feel obliged to code your programs in a way that is always the shortest and the most compact. Readability may be a more important factor. Keep your code ready for a new programmer.
+
+#   LAB   Guess the secret number
+Scenario
+
+A junior magician has picked a secret number. He has hidden it in a variable named secret_number. He wants everyone who runs his program to play the Guess the secret number game, and guess what number he has picked for them. Those who don't guess the number will be stuck in an endless loop forever! Unfortunately, he does not know how to complete the code.
+
+Your task is to help the magician complete the code in the editor in such a way so that the code:
+
+    will ask the user to enter an integer number;
+    will use a while loop;
+    will check whether the number entered by the user is the same as the number picked by the magician. If the number chosen by the user is different than the magician's secret number, the user should see the message "Ha ha! You're stuck in my loop!" and be prompted to enter a number again. If the number entered by the user matches the number picked by the magician, the number should be printed to the screen, and the magician should say the following words: "Well done, muggle! You are free now."
+
+The magician is counting on you! Don't disappoint him.
+  EXTRA INFO  
+
+By the way, look at the print() function. The way we've used it here is called multi-line printing. You can use triple quotes to print strings on multiple lines in order to make text easier to read, or create a special text-based design. Experiment with it.
+
+```python
+secret_number = 777
+
+print(
+"""
++================================+
+| Welcome to my game, muggle!    |
+| Enter an integer number        |
+| and guess what number I've     |
+| picked for you.                |
+| So, what is the secret number? |
++================================+
+""")
+guess = int(input("Enter an integer number, muggle!: "))
+
+# Mientras el número sea incorrecto, se queda acá adentro
+while guess != secret_number:
+    print("Ha ha! You're stuck in my loop!")
+    guess = int(input("Enter an integer number, muggle!: "))
+
+# Si llegó acá, es porque el 'while' terminó (es decir, adivinó el número)
+print("Well done, muggle! You are free now.")
+```
+
+
+#  Looping your code with for
+
+Another kind of loop available in Python comes from the observation that sometimes it's more important to count the "turns" of the loop than to check the conditions.
+
+Imagine that a loop's body needs to be executed exactly one hundred times. If you would like to use the while loop to do it, it may look like this:
+
+```python 
+ i = 0
+while i < 100:
+    # do_something()
+    i += 1
+  
+```
+
+It would be nice if somebody could do this boring counting for you. Is that possible?
+
+Of course it is – there's a special loop for these kinds of tasks, and it is named for.
+
+Actually, the for loop is designed to do more complicated tasks – it can "browse" large collections of data item by item. We'll show you how to do that soon, but right now we're going to present a simpler variant of its application.
+
+Take a look at the snippet:
+
+```python
+for i in range(100):
+    # do_something()
+    pass
+```
+
+
+There are some new elements. Let us tell you about them:
+
+    the for keyword opens the for loop; note – there's no condition after it; you don't have to think about conditions, as they're checked internally, without any intervention;
+    any variable after the for keyword is the control variable of the loop; it counts the loop's turns, and does it automatically;
+    the in keyword introduces a syntax element describing the range of possible values being assigned to the control variable;
+    the range() function (this is a very special function) is responsible for generating all the desired values of the control variable; in our example, the function will create (we can even say that it will feed the loop with) subsequent values from the following set: 0, 1, 2 .. 97, 98, 99; note: in this case, the range() function starts its job from 0 and finishes it one step (one integer number) before the value of its argument;
+    note the pass keyword inside the loop body – it does nothing at all; it's an empty instruction – we put it here because the for loop's syntax demands at least one instruction inside the body (by the way – if, elif, else and while express the same thing)
+
+Our next examples will be a bit more modest in the number of loop repetitions.
+
+Take a look at the snippet below. Can you predict its output?
+
+```python
+for i in range(10):
+    print("The value of i is currently", i)
+```
+
+Note:
+
+    the loop has been executed ten times (it's the range() function's argument)
+    the last control variable's value is 9 (not 10, as it starts from 0, not from 1)
+
+The range() function invocation may be equipped with two arguments, not just one:
+
+```python
+for i in range(2, 8):
+    print("The value of i is currently", i)
+```
+
+
+In this case, the first argument determines the initial (first) value of the control variable.
+
+The last argument shows the first value the control variable will not be assigned.
+
+Note: the range() function accepts only integers as its arguments, and generates sequences of integers.
+
+Can you guess the output of the program? Run it to check if you were right now, too.
+
+The first value shown is 2 (taken from the range()'s first argument.)
+
+The last is 7 (although the range()'s second argument is 8).
+
+# More about the for loop and the range() function with three arguments
+
+The range() function may also accept three arguments – take a look at the code in the editor.
+
+```python
+for i in range(2, 8, 3):
+    print("The value of i is currently", i)
+```
+The third argument is an increment – it's a value added to control the variable at every loop turn (as you may suspect, the default value of the increment is 1).
+
+Can you tell us how many lines will appear in the console and what values they will contain?
+
+Run the program to find out if you're right.
+You should be able to see the following lines in the console window:
+Output
+```
+The value of i is currently 2
+The value of i is currently 5
+```
+
+Do you know why? The first argument passed to the range() function tells us what the starting number of the sequence is (hence 2 in the output). The second argument tells the function where to stop the sequence (the function generates numbers up to the number indicated by the second argument, but does not include it). Finally, the third argument indicates the step, which actually means the difference between each number in the sequence of numbers generated by the function.
+
+2 (starting number) → 5 (2 increment by 3 equals 5 – the number is within the range from 2 to 8) → 8 (5 increment by 3 equals 8 – the number is not within the range from 2 to 8, because the stop parameter is not included in the sequence of numbers generated by the function.)
+
+Note: if the set generated by the range() function is empty, the loop won't execute its body at all.
+
+Just like here – there will be no output:
+
+```python
+for i in range(1, 1):
+    print("The value of i is currently", i)
+```
+
+
+Note: the set generated by the range() has to be sorted in ascending order. There's no way to force the range() to create a set in a different form when the range() function accepts exactly two arguments. This means that the range()'s second argument must be greater than the first.
+
+Thus, there will be no output here, either:
+
+```python
+ for i in range(2, 1):
+    print("The value of i is currently", i)
+  
+```
+Let's have a look at a short program whose task is to write some of the first powers of two:
+
+```python
+power = 1
+for expo in range(16):
+    print("2 to the power of", expo, "is", power)
+    power *= 2
+```
+
+R: 
+```
+2 to the power of 0 is 1
+2 to the power of 1 is 2
+2 to the power of 2 is 4
+2 to the power of 3 is 8
+2 to the power of 4 is 16
+2 to the power of 5 is 32
+2 to the power of 6 is 64
+2 to the power of 7 is 128
+2 to the power of 8 is 256
+2 to the power of 9 is 512
+2 to the power of 10 is 1024
+2 to the power of 11 is 2048
+2 to the power of 12 is 4096
+2 to the power of 13 is 8192
+2 to the power of 14 is 16384
+2 to the power of 15 is 32768
+```
+The expo variable is used as a control variable for the loop, and indicates the current value of the exponent. The exponentiation itself is replaced by multiplying by two. Since 20 is equal to 1, then 2 × 1 is equal to 21, 2 × 21 is equal to 22, and so on. What is the greatest exponent for which our program still prints the result?
+
+# 3.2.7   LAB   Essentials of the for loop – counting mississippily
