@@ -3205,3 +3205,1203 @@ R:
 The expo variable is used as a control variable for the loop, and indicates the current value of the exponent. The exponentiation itself is replaced by multiplying by two. Since 20 is equal to 1, then 2 × 1 is equal to 21, 2 × 21 is equal to 22, and so on. What is the greatest exponent for which our program still prints the result?
 
 # 3.2.7   LAB   Essentials of the for loop – counting mississippily
+
+Scenario
+
+Do you know what Mississippi is? Well, it's the name of one of the states and rivers in the United States. The Mississippi River is about 2,340 miles long, which makes it the second longest river in the United States (the longest being the Missouri River). It's so long that a single drop of water needs 90 days to travel its entire length!
+
+The word Mississippi is also used for a slightly different purpose: to count mississippily.
+
+If you're not familiar with the phrase, we're here to explain to you what it means: it's used to count seconds.
+
+The idea behind it is that adding the word Mississippi to a number when counting seconds aloud makes them sound closer to clock-time, and therefore "one Mississippi, two Mississippi, three Mississippi" will take approximately an actual three seconds of time! It's often used by children playing hide-and-seek to make sure the seeker does an honest count.
+
+Your task is very simple here: write a program that uses a for loop to "count mississippily" to five. Having counted to five, the program should print to the screen the final message "Ready or not, here I come!"
+
+Use the skeleton we've provided in the editor.
+  EXTRA INFO  
+
+Note that the code in the editor contains two elements which may not be fully clear to you at this moment: the import time statement, and the sleep() method. We're going to talk about them soon.
+
+For the time being, we'd just like you to know that we've imported the time module and used the sleep() method to suspend the execution of each subsequent print() function inside the for loop for one second, so that the message outputted to the console resembles an actual counting. Don't worry - you'll soon learn more about modules and methods.
+
+Expected output:
+Output
+```
+1 Mississippi
+2 Mississippi
+3 Mississippi
+4 Mississippi
+5 Mississippi
+Ready or not, here I come!
+```
+
+```python
+
+import time
+
+# Write a for loop that counts to five.
+    # Body of the loop - print the loop iteration number and the word "Mississippi".
+    # Body of the loop - use: time.sleep(1)
+for i in range(1, 6):
+    print(f"{i} Mississippi")
+    if i == 5:
+        print("Ready or not, here I come!")
+# Write a print function with the final message.
+
+time.sleep(1)
+
+```
+
+
+# The break and continue statements
+
+So far, we've treated the body of the loop as an indivisible and inseparable sequence of instructions that are performed completely at every turn of the loop. However, as a developer, you could be faced with the following choices:
+
+    it appears that it's unnecessary to continue the loop as a whole; you should refrain from further execution of the loop's body and go further;
+    it appears that you need to start the next turn of the loop without completing the execution of the current turn.
+
+Python provides two special instructions for the implementation of both these tasks. Let's say for the sake of accuracy that their existence in the language is not necessary – an experienced programmer is able to code any algorithm without these instructions. Such additions, which don't improve the language's expressive power, but only simplify the developer's work, are sometimes called syntactic candy, or syntactic sugar.
+
+These two instructions are:
+
+**break** – exits the loop immediately, and unconditionally ends the loop's operation; the program begins to execute the nearest instruction after the loop's body;
+
+**continue** – behaves as if the program has suddenly reached the end of the body; the next turn is started and the condition expression is tested immediately.
+
+Both these words are keywords.
+
+Now we'll show you two simple examples to illustrate how the two instructions work. Look at the code in the editor. Run the program and analyze the output. Modify the code and experiment.
+
+```python
+# break - example
+
+print("The break instruction:")
+for i in range(1, 6):
+    if i == 3:
+        break
+    print("Inside the loop.", i)
+print("Outside the loop.")
+
+
+# continue - example
+
+print("\nThe continue instruction:")
+for i in range(1, 6):
+    if i == 3:
+        continue
+    print("Inside the loop.", i)
+print("Outside the loop.")
+```
+
+R: 
+```
+The break instruction:
+Inside the loop. 1
+Inside the loop. 2
+Outside the loop.
+
+The continue instruction:
+Inside the loop. 1
+Inside the loop. 2
+Inside the loop. 4
+Inside the loop. 5
+Outside the loop.
+```
+
+## The break and continue statements: more examples
+
+Let's return to our program that recognizes the largest among the entered numbers. We'll convert it twice, using the break and continue instructions.
+
+Analyze the code, and judge whether and how you would use either of them.
+
+The break variant goes here:
+
+```python
+largest_number = -99999999
+counter = 0
+
+while True:
+    number = int(input("Enter a number or type -1 to end the program: "))
+    if number == -1:
+        break
+    counter += 1
+    if number > largest_number:
+        largest_number = number
+
+if counter != 0:
+    print("The largest number is", largest_number)
+else:
+    print("You haven't entered any number.")
+
+```
+
+R:
+```
+Enter a number or type -1 to end the program: 10
+Enter a number or type -1 to end the program: 20
+Enter a number or type -1 to end the program: -1
+The largest number is 20
+```
+
+Run it, test it, and experiment with it.
+
+And now the continue variant:
+
+```python
+largest_number = -99999999
+counter = 0
+
+number = int(input("Enter a number or type -1 to end program: "))
+
+while number != -1:
+    if number == -1:
+        continue
+    counter += 1
+
+    if number > largest_number:
+        largest_number = number
+    number = int(input("Enter a number or type -1 to end the program: "))
+
+if counter:
+    print("The largest number is", largest_number)
+else:
+    print("You haven't entered any number.")
+
+```
+
+R:
+
+```
+ Enter a number or type -1 to end the program: 10
+Enter a number or type -1 to end the program: 20
+Enter a number or type -1 to end the program: -1
+The largest number is 20
+```
+
+Look carefully, the user enters the first number before the program enters the while loop. The subsequent number is entered when the program is already in the loop.
+
+Again – run the program, test it, and experiment with it.
+
+##  LAB   The break statement – Stuck in a loop
+
+Scenario
+
+The break statement is used to exit/terminate a loop.
+
+Design a program that uses a while loop and continuously asks the user to enter a word unless the user enters "chupacabra" as the secret exit word, in which case the message "You've successfully left the loop." should be printed to the screen, and the loop should terminate.
+
+Don't print any of the words entered by the user. Use the concept of conditional execution and the break statement.
+
+```python
+while True:
+    palabra = input("Introduce una palabra: ")
+    if palabra == "chupacabra":
+        break
+
+print("You've successfully left the loop.")
+```
+
+##  LAB   The continue statement – the Ugly Vowel Eater
+
+Scenario
+
+The continue statement is used to skip the current block and move ahead to the next iteration, without executing the statements inside the loop.
+
+It can be used with both the while and for loops.
+
+Your task here is very special: you must design a vowel eater! Write a program that uses:
+
+    a for loop;
+    the concept of conditional execution (if-elif-else)
+    the continue statement.
+
+Your program must:
+
+    ask the user to enter a word;
+    use user_word = user_word.upper() to convert the word entered by the user to upper case; we'll talk about string methods and the upper() method very soon – don't worry;
+    use conditional execution and the continue statement to "eat" the following vowels A, E, I, O, U from the inputted word;
+    print the uneaten letters to the screen, each one of them on a separate line.
+
+Test your program with the data we've provided for you.
+
+Scenario
+
+The continue statement is used to skip the current block and move ahead to the next iteration, without executing the statements inside the loop.
+
+It can be used with both the while and for loops.
+
+Your task here is very special: you must design a vowel eater! Write a program that uses:
+
+    a for loop;
+    the concept of conditional execution (if-elif-else)
+    the continue statement.
+
+Your program must:
+
+    ask the user to enter a word;
+    use user_word = user_word.upper() to convert the word entered by the user to upper case; we'll talk about string methods and the upper() method very soon – don't worry;
+    use conditional execution and the continue statement to "eat" the following vowels A, E, I, O, U from the inputted word;
+    print the uneaten letters to the screen, each one of them on a separate line.
+
+Test your program with the data we've provided for you.
+
+```python
+# Prompt the user to enter a word
+# and assign it to the user_word variable.
+user_word = input("Enter a word ")
+user_word = user_word.upper()
+for letter in user_word:
+    if letter == "A":
+        continue
+    elif letter == "E":
+        continue
+    elif letter == "I":
+        continue
+    elif letter == "O":
+        continue
+    elif letter == "U":
+        continue
+    else:
+        print (letter)
+    # Complete the body of the for loop.
+
+```
+
+#   LAB   The continue statement – the Pretty Vowel Eater
+
+Scenario
+
+Your task here is even more special than before: you must redesign the (ugly) vowel eater from the previous lab and create a better, upgraded (pretty) vowel eater! Write a program that uses:
+
+    a for loop;
+    the concept of conditional execution (if-elif-else)
+    the continue statement.
+
+Your program must:
+
+    ask the user to enter a word;
+    use user_word = user_word.upper() to convert the word entered by the user to upper case; we'll talk about string methods and the upper() method very soon - don't worry;
+    use conditional execution and the continue statement to "eat" the following vowels A, E, I, O, U from the inputted word;
+    assign the uneaten letters to the word_without_vowels variable and print the variable to the screen.
+
+Look at the code in the editor. We've created word_without_vowels and assigned an empty string to it. Use concatenation operation to ask Python to combine selected letters into a longer string during subsequent loop turns, and assign it to the word_without_vowels variable.
+
+Test your program with the data we've provided for you.
+
+```python
+word_without_vowels = ""
+
+# Prompt the user to enter a word
+# and assign it to the user_word variable.
+# Prompt the user to enter a word
+
+user_word = input("Enter a word ")
+user_word = user_word.upper()
+for letter in user_word:
+    if letter == "A":
+        continue
+    elif letter == "E":
+        continue
+    elif letter == "I":
+        continue
+    elif letter == "O":
+        continue
+    elif letter == "U":
+        continue
+    else:
+         word_without_vowels += letter
+
+# Imprimir la palabra asignada a la variable
+print(word_without_vowels)
+```
+
+R: 
+```
+Enter a word hola
+HL
+```
+
+#  The while loop and the else branch
+
+Both loops, while and for, have one interesting (and rarely used) feature.
+
+We'll show you how it works – try to judge for yourself if it's usable and whether you can live without it or not.
+
+In other words, try to convince yourself if the feature is valuable and useful, or is just syntactic sugar.
+
+Take a look at the snippet in the editor. There's something strange at the end – the else keyword.
+
+As you may have suspected, loops may have the else branch too, like ifs.
+
+The loop's else branch is always executed once, regardless of whether the loop has entered its body or not.
+
+Can you guess the output? Run the program to check if you were right.
+
+```python
+i = 1
+while i < 5:
+    print(i)
+    i += 1
+else:
+    print("else:", i)
+
+
+```
+
+Modify the snippet a bit so that the loop has no chance to execute its body even once:
+
+```python
+i = 5
+while i < 5:
+    print(i)
+    i += 1
+    if i < 5:
+        break
+else:
+    print("else:", i)
+
+```
+
+The while's condition is False at the beginning – can you see it?
+
+Run and test the program, and check whether the else branch has been executed or not.
+
+# The for loop and the else branch
+
+for loops behave a bit differently – take a look at the snippet in the editor and run it.
+
+```python
+for i in range(5):
+    print(i)
+else:
+    print("else:", i)
+```
+
+R:
+```
+0
+1
+2
+3
+4
+else: 4
+```
+The output may be a bit surprising.
+
+The i variable retains its last value.
+
+Modify the code a bit to carry out one more experiment
+
+```python
+i = 111
+for i in range(2, 1):
+    print(i)
+else:
+    print("else:", i)
+
+```
+
+R:
+```
+else: 111
+```
+
+Can you guess the output?
+
+The loop's body won't be executed here at all. Note: we've assigned the i variable before the loop.
+
+Run the program and check its output.
+
+When the loop's body isn't executed, the control variable retains the value it had before the loop.
+
+Note: if the control variable doesn't exist before the loop starts, it won't exist when the execution reaches the else branch.
+
+How do you feel about this variant of else?
+
+Soon we'll tell you about some other kinds of variables. Our current variables can only store one value at a time, but there are variables that can do much more – they can store as many values as you want. But let's do some labs, first.
+
+#   LAB   Essentials of the while loop
+Scenario
+
+Listen to this story: a boy and his father, a computer programmer, are playing with wooden blocks. They are building a pyramid.
+
+Their pyramid is a bit weird, as it is actually a pyramid-shaped wall – it's flat. The pyramid is stacked according to one simple principle: each lower layer contains one block more than the layer above.
+
+The figure illustrates the rule used by the builders:
+
+Your task is to write a program which reads the number of blocks the builders have, and outputs the height of the pyramid that can be built using these blocks.
+
+Note: the height is measured by the number of fully completed layers – if the builders don't have a sufficient number of blocks and cannot complete the next layer, they finish their work immediately.
+
+Test your code using the data we've provided.
+
+```python
+blocks = int(input("Enter the number of blocks: "))
+
+# Variables iniciales para el conteo
+height = 0
+needed_blocks = 1
+
+# Bucle para simular la construcción capa por capa
+while blocks >= needed_blocks:
+    blocks -= needed_blocks
+    height += 1
+    needed_blocks += 1
+
+print("The height of the pyramid:", height)
+```
+1. The Initial Variables
+
+blocks: This is the total number of blocks the user enters (for example, let's use 6 blocks for testing).
+
+height = 0: We start with a height of 0 floors because we haven't built anything yet.
+
+needed_blocks = 1: This represents how many blocks we need to build the next layer. The top layer (the tip) needs exactly 1 block.
+
+2. The Loop (while)
+
+The while condition states: "As long as the number of blocks I have left (blocks) is greater than or equal to the number of blocks I need for the next floor (needed_blocks), keep building."
+
+If we load 6 blocks, the variables' path is as follows:
+🧱 Floor 1 (The Tip)
+
+Condition: Is blocks (6) >= needed_blocks (1)? Yes. We enter the loop.
+
+blocks -= needed_blocks ──► 6 − 1 = 5. (We used 1 block, we have 5 left).
+
+height += 1 ──► The height is now 1.
+
+needed_blocks += 1 ──► The next floor will need 2 blocks.
+
+🧱 Floor 2 (The middle one)
+
+Condition: Is blocks(5) >= needed_blocks(2)? Yes. We enter the loop.
+
+blocks -= needed_blocks ──► 5 − 2 = 3. (We used 2 more blocks, we have 3 left).
+
+height += 1 ──► The height is now 2.
+
+needed_blocks += 1 ──► The next floor will need 3 blocks.
+
+🧱 Floor 3 (The Base)
+
+Condition: Is `blocks(3)` >= `need_blocks(3)`? Yes. We enter the loop.
+
+`blocks -= needed_blocks` ──► 3 − 3 = 0. (We used the last 3 blocks, leaving us with 0).
+
+`height += 1` ──► The height is now 3.
+
+`need_blocks += 1` ──► The next floor would need 4 blocks.
+
+🛑 Attempt at Floor 4
+
+Condition: Is `blocks(0)` >= `need_blocks(4)`? No. Since 0 is less than 4, the loop breaks immediately because we no longer have enough blocks to complete that floor.
+
+3. The Final Result
+
+The program exits the `while` loop and executes the print statement:
+Plaintext
+```
+The height of the pyramid: 3
+```
+
+#   LAB   Collatz's hypothesis
+Scenario
+
+In 1937, a German mathematician named Lothar Collatz formulated an intriguing hypothesis (it still remains unproven) which can be described in the following way:
+
+    take any non-negative and non-zero integer number and name it c0;
+    if it's even, evaluate a new c0 as c0 ÷ 2;
+    otherwise, if it's odd, evaluate a new c0 as 3 × c0 + 1;
+    if c0 ≠ 1, go back to point 2.
+
+The hypothesis says that regardless of the initial value of c0, it will always go to 1.
+
+Of course, it's an extremely complex task to use a computer in order to prove the hypothesis for any natural number (it may even require artificial intelligence), but you can use Python to check some individual numbers. Maybe you'll even find the one which would disprove the hypothesis.
+
+Write a program which reads one natural number and executes the above steps as long as c0 remains different from 1. We also want you to count the steps needed to achieve the goal. Your code should output all the intermediate values of c0, too.
+
+Hint: the most important part of the problem is how to transform Collatz's idea into a while loop – this is the key to success.
+
+Test your code using the data we've provided.
+
+```python
+# Leer un número entero natural (estrictamente positivo)
+c0 = int(input("Introduce un número entero: "))
+
+# Inicializar el contador de pasos
+steps = 0
+
+# Ejecutar el bucle mientras c0 sea diferente de 1
+while c0 != 1:
+    if c0 % 2 == 0:
+        # Si es par, se divide entre 2
+        c0 = c0 // 2
+    else:
+        # Si es impar, se multiplica por 3 y se le suma 1
+        c0 = 3 * c0 + 1
+    
+    # Mostrar el valor intermedio actual
+    print(c0)
+    
+    # Incrementar el contador de pasos
+    steps += 1
+
+# Imprimir el total de pasos requeridos
+print("pasos =", steps)
+
+```
+
+R:
+```
+Introduce un número entero: 16
+8
+4
+2
+1
+pasos = 4
+```
+
+
+# SECTION SUMMARY
+
+1. There are two types of loops in Python: while and for:
+
+    the while loop executes a statement or a set of statements as long as a specified boolean condition is true, e.g.:
+
+
+```python
+# Example 1
+while True:
+    print("Stuck in an infinite loop.")
+
+# Example 2
+counter = 5
+while counter > 2:
+    print(counter)
+    counter -= 1
+
+```
+
+* the for loop executes a set of statements many times; it's used to iterate over a sequence (e.g., a list, a dictionary, a tuple, or a set – you will learn about them soon) or other iterable objects (e.g., strings). You can use the for loop to iterate over a sequence of numbers using the built-in range function. Look at the examples below
+
+```python
+# Example 1
+word = "Python"
+for letter in word:
+    print(letter, end="*")
+
+# Example 2
+for i in range(1, 10):
+    if i % 2 == 0:
+        print(i)
+
+```
+
+* 2. You can use the break and continue statements to change the flow of a loop:
+
+    You use break to exit a loop, e.g.:
+
+```python
+text = "OpenEDG Python Institute"
+for letter in text:
+    if letter == "P":
+        break
+    print(letter, end="")
+
+```
+
+* You use continue to skip the current iteration, and continue with the next iteration, e.g.:
+
+```python
+text = "pyxpyxpyx
+for letter in text:
+    if letter == "x":
+        continue
+    print(letter, end="")
+
+```
+* 3. The while and for loops can also have an else clause in Python. The else clause executes after the loop finishes its execution as long as it has not been terminated by break, e.g.:
+
+```python
+n = 0
+
+while n != 3:
+    print(n)
+    n += 1
+else:
+    print(n, "else")
+
+print()
+
+for i in range(0, 3):
+    print(i)
+else:
+    print(i, "else")
+
+```
+
+* 4. The range() function generates a sequence of numbers. It accepts integers and returns range objects. The syntax of range() looks as follows: range(start, stop, step), where:
+
+    start is an optional parameter specifying the starting number of the sequence (0 by default)
+    stop is an optional parameter specifying the end of the sequence generated (it is not included),
+    and step is an optional parameter specifying the difference between the numbers in the sequence (1 by default.)
+
+Example code:
+
+```python
+for i in range(3):
+    print(i, end=" ")  # Outputs: 0 1 2
+
+for i in range(6, 1, -2):
+    print(i, end=" ")  # Outputs: 6, 4, 2
+
+```
+
+# SECTION QUIZ
+
+Question 1: Create a for loop that counts from 0 to 10, and prints odd numbers to the screen. Use the skeleton below:
+```
+for i in range(1, 11):
+    # Line of code.
+        # Line of code.
+```
+
+ 
+
+Sample solution:
+```
+for i in range(0, 11):
+    if i % 2 != 0:
+        print(i)
+```
+
+---
+
+Question 2: Create a while loop that counts from 0 to 10, and prints odd numbers to the screen. Use the skeleton below:
+```
+x = 1
+while x < 11:
+    # Line of code.
+        # Line of code.
+    # Line of code.
+``` 
+ 
+
+Sample solution:
+```
+x = 1
+while x < 11:
+    if x % 2 != 0:
+        print(x)
+    x += 1
+
+```
+---
+Question 3: Create a program with a for loop and a break statement. The program should iterate over characters in an email address, exit the loop when it reaches the @ symbol, and print the part before @ on one line. Use the skeleton below:
+```
+for ch in "john.smith@pythoninstitute.org":
+    if ch == "@":
+        # Line of code.
+    # Line of code.
+``` 
+ 
+
+Sample solution:
+```
+for ch in "john.smith@pythoninstitute.org":
+    if ch == "@":
+        break
+    print(ch, end="")
+
+```
+
+---
+
+Question 4: Create a program with a for loop and a continue statement. The program should iterate over a string of digits, replace each 0 with x, and print the modified string to the screen. Use the skeleton below:
+```
+for digit in "0165031806510":
+    if digit == "0":
+        # Line of code.
+        # Line of code.
+    # Line of code.
+``` 
+ 
+
+Sample solution:
+```
+for digit in "0165031806510":
+    if digit == "0":
+        print("x", end="")
+        continue
+    print(digit, end="")
+
+```
+
+---
+
+# 3.3 Section 3 – Logic and bit operations in Python
+
+Computer logic
+
+Have you noticed that the conditions we've used so far have been very simple, not to say, quite primitive? The conditions we use in real life are much more complex. Let's look at this sentence:
+
+If we have some free time, and the weather is good, we will go for a walk.
+
+We've used the conjunction and, which means that going for a walk depends on the simultaneous fulfilment of these two conditions. In the language of logic, such a connection of conditions is called a conjunction. And now another example:
+
+If you are in the mall or I am in the mall, one of us will buy a gift for Mom.
+
+The appearance of the word or means that the purchase depends on at least one of these conditions. In logic, such a compound is called a disjunction.
+
+It's clear that Python must have operators to build conjunctions and disjunctions. Without them, the expressive power of the language would be substantially weakened. They're called logical operators.
+
+## The and operator
+
+One logical conjunction operator in Python is the word and. It's a binary operator with a priority that is lower than the one expressed by the comparison operators. It allows us to code complex conditions without the use of parentheses like this one:
+```python
+counter > 0 and value == 100
+ ```
+
+
+The result provided by the and operator can be determined on the basis of the truth table.
+
+If we consider the conjunction of A and B, the set of possible values of arguments and corresponding values of the conjunction looks as follows:
+
+| Argument A | Argument B | A and B |
+| :---: | :---: | :---: |
+| `False` | `False` | `False` |
+| `False` | `True` | `False` |
+| `True` | `False` | `False` |
+| `True` | `True` | `True` |
+
+## The or operator
+
+A disjunction operator is the word or. It's a binary operator with a lower priority than and (just like + compared to *). Its truth table is as follows:
+
+| Argument A | Argument B | A or B |
+| :---: | :---: | :---: |
+| `False` | `False` | `False` |
+| `False` | `True` | `True` |
+| `True` | `False` | `True` |
+| `True` | `True` | `True` |
+
+## The not operator
+
+In addition, there's another operator that can be applied to the construction of conditions. It's a unary operator performing a logical negation. Its operation is simple: it turns truth into falsehood and falsehood into truth.
+
+This operator is written as the word not, and its priority is very high: the same as the unary + and -. Its truth table is simple:
+
+| Argument | not Argument |
+| :---: | :---: |
+| `False` | `True` |
+| `True` | `False` |
+
+## Logical expressions
+
+Let's create a variable named var and assign 1 to it. The following conditions are pairwise equivalent:
+
+```python
+ # Example 1:
+print(var > 0)
+print(not (var <= 0))
+ 
+ 
+# Example 2:
+print(var != 0)
+print(not (var == 0)) 
+```
+
+You may be familiar with De Morgan's laws. They say that:
+
+**The negation of a conjunction is the disjunction of the negations.**
+
+**The negation of a disjunction is the conjunction of the negations.**
+
+Let's write the same thing using Python:
+```python
+not (p and q) == (not p) or (not q)
+not (p or q) == (not p) and (not q)
+
+```
+
+Note how the parentheses have been used to code the expressions ‒ we put them there to improve readability.
+
+We should add that none of these two-argument operators can be used in the abbreviated form known as op=. This exception is worth remembering.
+
+
+## Logical values vs. single bits
+
+Logical operators take their arguments as a whole regardless of how many bits they contain. The operators are aware only of the value: zero (when all the bits are reset) means False; not zero (when at least one bit is set) means True.
+
+The result of their operations is one of these values: False or True. This means that this snippet will assign the value True to the j variable if i is not zero; otherwise, it will be False.
+
+
+```python
+i = 1
+j = not not i
+
+```
+
+
+# Bitwise operators
+
+However, there are four operators that allow you to manipulate single bits of data. They are called bitwise operators.
+
+They cover all the operations we mentioned before in the logical context, and one additional operator. This is the xor (as in exclusive or) operator, and is denoted as ^ (caret).
+
+Here are all of them:
+
+    & (ampersand) ‒ bitwise conjunction;
+    | (bar) ‒ bitwise disjunction;
+    ~ (tilde) ‒ bitwise negation;
+    ^ (caret) ‒ bitwise exclusive or (xor).
+
+
+### Bitwise operations (`&`, `|`, and `^`)
+
+| Argument A | Argument B | A & B | A \| B | A ^ B |
+| :---: | :---: | :---: | :---: | :---: |
+| `0` | `0` | `0` | `0` | `0` |
+| `0` | `1` | `0` | `1` | `1` |
+| `1` | `0` | `0` | `1` | `1` |
+| `1` | `1` | `1` | `1` | `0` |
+
+### Bitwise operations (`~`)
+
+| Argument | ~ Argument |
+| :---: | :---: |
+| `0` | `1` |
+| `1` | `0` |
+
+Let's make it easier:
+
+    & requires exactly two 1s to provide 1 as the result;
+    | requires at least one 1 to provide 1 as the result;
+    ^ requires exactly one 1 to provide 1 as the result.
+
+Let us add an important remark: the arguments of these operators must be integers; we must not use floats here.
+
+The difference in the operation of the logical and bit operators is important: the logical operators do not penetrate into the bit level of its argument. They're only interested in the final integer value.
+
+Bitwise operators are stricter: they deal with every bit separately. If we assume that the integer variable occupies 64 bits (which is common in modern computer systems), you can imagine the bitwise operation as a 64-fold evaluation of the logical operator for each pair of bits of the arguments. This analogy is obviously imperfect, as in the real world all these 64 operations are performed at the same time (simultaneously).
+
+## Logical vs. bit operations
+
+We'll now show you an example of the difference in operation between the logic and bit operations. Let's assume that the following assignments have been performed:
+
+```python
+i = 15
+j = 22
+
+```
+
+f we assume that the integers are stored with 32 bits, the bitwise image of the two variables will be as follows:
+
+i: 00000000000000000000000000001111
+j: 00000000000000000000000000010110
+
+The assignment is given:
+
+```python 
+log = i and j
+```
+
+We are dealing with a logical conjunction here. Let's trace the course of the calculations. Both variables i and j are not zeros, so will be deemed to represent True. Consulting the truth table for the and operator, we can see that the result will be True. No other operations are performed.
+
+log: True
+
+Now the bitwise operation ‒ here it is:
+
+```python
+bit = i & j
+```
+The & operator will operate with each pair of corresponding bits separately, producing the values of the relevant bits of the result. Therefore, the result will be as follows:
+
+| Variable | Value (Binary) |
+| :--- | :--- |
+| `i` | `00000000000000000000000000001111` |
+| `j` | `00000000000000000000000000010110` |
+| `bit = i & j` | `00000000000000000000000000000110` |
+
+These bits correspond to the integer value of six.
+
+Let's look at the negation operators now. First the logical one:
+```python
+logneg = not i
+
+```
+The logneg variable will be set to False ‒ nothing more needs to be done.
+
+The bitwise negation goes like this:
+
+```python
+bitneg = ~i
+```
+
+
+It may be a bit surprising: the bitneg variable value is -16. This may seem strange, but isn't at all. If you wish to learn more, you should check out the binary numeral system and the rules governing two's complement numbers.
+
+| Variable | Value (Binary) |
+| :--- | :--- |
+| `i` | `00000000000000000000000000001111` |
+| `bitneg = ~i` | `11111111111111111111111111110000` |
+
+
+Each of these two-argument operators can be used in abbreviated form. These are the examples of their equivalent notations:
+
+| Expression | Equivalent Shorthand |
+| :--- | :--- |
+| `x = x & y` | `x &= y` |
+| `x = x \| y` | `x \|= y` |
+| `x = x ^ y` | `x ^= y` |
+
+
+## How do we deal with single bits?
+
+We'll now show you what you can use bitwise operators for. Imagine that you're a developer obliged to write an important piece of an operating system. You've been told that you're allowed to use a variable assigned in the following way:
+
+```
+flag_register = 0x1234 
+```
+
+    The variable stores the information about various aspects of system operation. Each bit of the variable stores one yes/no value. You've also been told that only one of these bits is yours ‒ the third (remember that bits are numbered from zero, and bit number zero is the lowest one, while the highest is number 31). The remaining bits are not allowed to change, because they're intended to store other data. Here's your bit marked with the letter x:
+
+```
+flag_register = 0000000000000000000000000000x000
+```
+You may be faced with the following tasks:
+
+1. Check the state of your bit ‒ you want to find out the value of your bit; comparing the whole variable to zero will not do anything, because the remaining bits can have completely unpredictable values, but you can use the following conjunction property:
+
+```python
+x & 1 = x
+x & 0 = 0
+
+```
+If you apply the & operation to the flag_register variable along with the following bit image:
+
+```
+00000000000000000000000000001000
+```
+(note the 1 at your bit's position) as the result, you obtain one of the following bit strings:
+
+    00000000000000000000000000001000 if your bit was set to 1
+    00000000000000000000000000000000 if your bit was reset to 0
+
+Such a sequence of zeros and ones, whose task is to grab the value or to change the selected bits, is called a bit mask.
+
+Let's build a bit mask to detect the state of your bit. It should point to the third bit. That bit has the weight of 23 = 8. A suitable mask could be created by the following declaration:
+
+```python
+the_mask = 8
+
+```
+You can also make a sequence of instructions depending on the state of your bit. Here it is:
+
+```python
+if flag_register & the_mask:
+    # My bit is set.
+else:
+    # My bit is reset.
+
+
+```
+
+2. Reset your bit ‒ you assign a zero to the bit while all the other bits must remain unchanged; let's use the same property of the conjunction as before, but let's use a slightly different mask ‒ exactly as below:
+
+```
+11111111111111111111111111110111
+```
+
+Note that the mask was created as a result of the negation of all the bits of the_mask variable. Resetting the bit is simple, and looks like this (choose the one you like more):
+
+```
+flag_register = flag_register & ~the_mask
+flag_register &= ~the_mask
+
+```
+
+3. Set your bit ‒ you assign a 1 to your bit, while all the remaining bits must remain unchanged; use the following disjunction property:
+
+```python
+x | 1 = 1
+x | 0 = x
+
+```
+
+You're now ready to set your bit with one of the following instructions
+```
+flag_register = flag_register | the_mask
+flag_register |= the_mask
+
+
+```
+4. Negate your bit ‒ you replace a 1 with a 0 and a 0 with a 1. You can use an interesting property of the xor operator:
+
+```python
+x ^ 1 = ~x
+x ^ 0 = x
+
+```
+and negate your bit with the following instructions:
+```
+flag_register = flag_register ^ the_mask
+flag_register ^= the_mask
+
+```
+
+#  Binary left shift and binary right shift
+
+Python offers yet another operation relating to single bits: shifting. This is applied only to integer values, and you mustn't use floats as arguments for it.
+
+You already apply this operation very often and quite unconsciously. How do you multiply any number by ten? Take a look:
+
+12345 × 10 = 123450
+
+As you can see, multiplying by ten is in fact a shift of all the digits to the left and filling the resulting gap with zero.
+
+Division by ten? Take a look:
+
+12340 ÷ 10 = 1234
+
+Dividing by ten is nothing but shifting the digits to the right.
+
+The same kind of operation is performed by the computer, but with one difference: as two is the base for binary numbers (not 10), shifting a value one bit to the left thus corresponds to multiplying it by two; respectively, shifting one bit to the right is like dividing by two (notice that the rightmost bit is lost).
+
+The shift operators in Python are a pair of digraphs: << and >>, clearly suggesting in which direction the shift will act.
+
+```
+value << bits
+value >> bits 
+```
+
+The left argument of these operators is an integer value whose bits are shifted. The right argument determines the size of the shift.
+
+It shows that this operation is certainly not commutative.
+
+The priority of these operators is very high. You'll see them in the updated table of priorities, which we'll show you at the end of this section.
+
+Take a look at the shifts in the editor window.
+```python
+var = 17
+var_right = var >> 1
+var_left = var << 2
+print(var, var_left, var_right)
+```
+Note:
+
+    17 >> 1 → 17 // 2 (17 floor-divided by 2 to the power of 1) → 8 (shifting to the right by one bit is the same as integer division by two)
+    17 << 2 → 17 * 4 (17 multiplied by 2 to the power of 2) → 68 (shifting to the left by two bits is the same as integer multiplication by four)
+
+And here is the updated priority table, containing all the operators introduced so far:
+
+| Priority | Operator | Type |
+| :---: | :--- | :--- |
+| 1 | `~`, `+`, `-` | unary |
+| 2 | `**` | |
+| 3 | `*`, `/`, `//`, `%` | |
+| 4 | `+`, `-` | binary |
+| 5 | `<<`, `>>` | |
+| 6 | `<`, `<=`, `>`, `>=` | |
+| 7 | `==`, `!=` | |
+| 8 | `&` | |
+| 9 | `\|` | |
+| 10 | `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `^=`, `\|=`, `>>=`, `<<=` | |
+
+
+# SECTION SUMMARY
+
+1. Python supports the following logical operators:
+
+    and → if both operands are true, the condition is true, e.g., (True and True) is True,
+    or → if any of the operands are true, the condition is true, e.g., (True or False) is True,
+    not → returns false if the result is true, and returns true if the result is false, e.g., not True is False.
+
+2. You can use bitwise operators to manipulate single bits of data. The following sample data:
+
+    x = 15, which is 0000 1111 in binary,
+    y = 16, which is 0001 0000 in binary.
+
+will be used to illustrate the meaning of bitwise operators in Python. Analyze the examples below:
+
+    & does a bitwise and, e.g., x & y = 0, which is 0000 0000 in binary,
+
+    | does a bitwise or, e.g., x | y = 31, which is 0001 1111 in binary,
+
+    ˜ does a bitwise not, e.g., ˜ x = 240*, which is 1111 0000 in binary,
+
+    ^ does a bitwise xor, e.g., x ^ y = 31, which is 0001 1111 in binary,
+
+    >> does a bitwise right shift, e.g., y >> 1 = 8, which is 0000 1000 in binary,
+
+    << does a bitwise left shift, e.g., y << 3 = 128, which is 1000 0000 in binary.
+
+## Two's  complement
+
+Two's complement is the most common method of representing signed (positive, negative, and zero) integers on computers,[1] and more generally, fixed point binary values. As with the ones' complement and sign-magnitude systems, two's complement uses the most significant bit as the sign to indicate positive (0) or negative (1) numbers, and nonnegative numbers are given their unsigned representation (6 is 0110, zero is 0000); however, in two's complement, negative numbers are represented by taking the bit complement of their magnitude and then adding one (−6 is 1010). The number of bits in the representation may be increased by padding all additional high bits of negative or positive numbers with 1's or 0's, respectively, or decreased by removing additional leading 1's or 0's.
+
+Unlike the ones' complement scheme, the two's complement scheme has only one representation for zero, with room for one extra negative number (the range of a 4-bit number is −8 to +7). Furthermore, the same arithmetic implementations can be used on signed as well as unsigned integers[2] and differ only in the integer overflow situations, since the sum of representations of a positive number and its negative is 0 (with the carry bit set). 
+
+The following is the procedure for obtaining the two's complement representation of a given negative number in binary digits:
+
+    Step 1: starting with the absolute binary representation of the number, with the leading bit being a sign bit;[3]
+    Step 2: inverting (or flipping) all bits – changing every 0 to 1, and every 1 to 0;
+    Step 3: adding 1 to the entire inverted number, ignoring any overflow. Accounting for overflow will produce the wrong value for the result.
+
+For example, to calculate the decimal number −6 in binary from the number 6:
+
+    Step 1: +6 in decimal is 0110 in binary; the leftmost significant bit (the first 0) is the sign (just 110 in binary would be −2 in decimal).
+    Step 2: flip all bits in 0110, giving 1001.
+    Step 3: add the place value 1 to the flipped number 1001, giving 1010.
+
+To verify that 1010 indeed has a value of −6, add the place values together, but subtract the sign value from the final calculation. Because the most significant value is the sign value, it must be subtracted to produce the correct result: 1010 = −(1×23) + (0×22) + (1×21) + (0×20) = 1×−8 + 0 + 1×2 + 0 = −6. 
+
+| | | | | |
+| :--- | :---: | :---: | :---: | :---: |
+| **Bits:** | `1` | `0` | `1` | `0` |
+| **Decimal bit value:** | `-8` | `4` | `2` | `1` |
+| **Binary calculation:** | `-(1×2³)` | `(0×2²)` | `(1×2¹)` | `(0×2⁰)` |
+| **Decimal calculation:** | `-(1×8)` | `0` | `1×2` | `0` |
+
+Steps 2 and 3 together are a valid method to compute the additive inverse − n {\displaystyle -n} of any (positive or negative) integer n {\displaystyle n} where both input and output are in two's complement. An alternative to compute − n {\displaystyle -n} is to use subtraction 0 − n {\displaystyle 0-n}. See below for subtraction of integers in two's complement. 
+
+```python
+ x = 4
+
+e = x >> 2
+
+ 
+print(e) 
+```
+The Quick Math Calculation
+
+As we saw earlier, the >> operator means floor division by 2 raised to the power of the number of spaces you move.
+
+Your starting number (x) is 4.
+
+You move 2 spaces to the right (>> 2).
+
+So, the math Python performs behind the scenes is:
+
+4//22 ⟶ 4//4 = 1
+
+The result that print(e) will display is exactly 1.
+
+2. The Physical Counting with Bits (How the Processor Does It) 
+
+To see how ones and zeros move, let's take the number 4 and write it in binary using an 8-bit block (separated into groups of 4, as we like to read it easily):
+
+The number 4 in binary is: 0000 0100
+
+Now, let's apply the >> 2 operator, which pushes all the bits two places to the right. The bits that move off the right side of the map are lost, and the empty spaces that come in from the left are filled with zeros:
+```
+Posición original (4):       0   0   0   0     0   1   0   0
+                             │   │   │   │     │   │   └─┬─┘
+                             ▼   ▼   ▼   ▼     ▼   ▼     ▼  (Se caen y se pierden)
+Movimiento (>> 2):           0   0   0   0     0   0   0   1
+```
+
+If we look at the final result (0000 0001), the only bit that remained lit is the one in position 1. Therefore, the binary number 0000 0001 is equivalent to 1 in our decimal system.
+
