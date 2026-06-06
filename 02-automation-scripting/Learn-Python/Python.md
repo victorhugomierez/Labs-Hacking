@@ -4986,7 +4986,7 @@ Write a program that reflects these changes and lets you practice with the conce
     step 1: create an empty list named beatles;
     step 2: use the append() method to add the following members of the band to the list: John Lennon, Paul McCartney, and George Harrison;
     step 3: use the for loop and the append() method to prompt the user to add the following members of the band to the list: Stu Sutcliffe, and Pete Best;
-    step 4: use the del instruction to remove Stu Sutcliffe and Pete Best from the list;
+    step 4: use the 'del' instruction to remove Stu Sutcliffe and Pete Best from the list;
     step 5: use the insert() method to add Ringo Starr to the beginning of the list.
 
 
@@ -5032,3 +5032,702 @@ Step 3: ['John Lennon', 'Paul McCartney', 'George Harrison', 'stu', 'peter']
 Step 4 (After deletions): ['John Lennon', 'Paul McCartney', 'George Harrison']
 Step 5 (Final list): ['Ringo Starr', 'John Lennon', 'Paul McCartney', 'George Harrison']
 ```
+
+# SUMMARY
+
+1. The list is a type of data in Python used to store multiple objects. It is an ordered and mutable collection of comma-separated items between square brackets, e.g.:
+
+```python
+my_list = [1, None, True, "I am a string", 256, 0] 
+```
+
+2. Lists can be indexed and updated, e.g.:
+
+```´ython
+ my_list = [1, None, True, 'I am a string', 256, 0]
+print(my_list[3])  # outputs: I am a string
+print(my_list[-1])  # outputs: 0
+ 
+my_list[1] = '?'
+print(my_list)  # outputs: [1, '?', True, 'I am a string', 256, 0]
+ 
+my_list.insert(0, "first")
+my_list.append("last")
+print(my_list)  # outputs: ['first', 1, '?', True, 'I am a string', 256, 0, 'last']
+```
+
+3. Lists can be nested, e.g.:
+```python
+my_list = [1, 'a', ["list", 64, [0, 1], False]] 
+```
+
+You will learn more about nesting in module 3.7 ‒ for the time being, we just want you to be aware that something like this is possible, too.
+
+4. List elements and lists can be deleted, e.g.:
+
+```python
+ my_list = [1, 2, 3, 4]
+del my_list[2]
+print(my_list)  # outputs: [1, 2, 4]
+ 
+del my_list  # deletes the whole list
+```
+
+Again, you will learn more about this in module 3.6 ‒ don't worry. For the time being just try to experiment with the above code and check how changing it affects the output.
+
+5. Lists can be iterated through using the for loop, e.g.:
+```python
+ my_list = ["white", "purple", "blue", "yellow", "green"]
+ 
+for color in my_list:
+    print(color)
+```
+
+6. The len() function may be used to check the list's length, e.g.:
+```python
+ my_list = ["white", "purple", "blue", "yellow", "green"]
+print(len(my_list))  # outputs 5
+ 
+del my_list[2]
+print(len(my_list))  # outputs 4
+```
+
+7. A typical function invocation looks as follows: result = function(arg), while a typical method invocation looks like this:result = data.method(arg).
+
+---
+
+# Section 5 – Sorting simple lists: the bubble sort algorithm
+
+The bubble sort
+
+Now that you can effectively juggle the elements of lists, it's time to learn how to sort them. Many sorting algorithms have been invented so far, which differ a lot in speed, as well as in complexity. We are going to show you a very simple algorithm, easy to understand, but unfortunately not too efficient, either. It's used very rarely, and certainly not for large and extensive lists.
+
+Let's say that a list can be sorted in two ways:
+
+*    increasing (or more precisely ‒ non-decreasing) ‒ if in every pair of adjacent elements, the former element is not greater than the latter;
+*    decreasing (or more precisely ‒ non-increasing) ‒ if in every pair of adjacent elements, the former element is not less than the latter.
+
+In the following sections, we'll sort the list in increasing order, so that the numbers will be ordered from the smallest to the largest.
+
+Here's the list:
+```
+8 - 10 - 6 - 2 - 4 
+```
+
+We'll try to use the following approach: we'll take the first and the second elements and compare them; if we determine that they're in the wrong order (i.e., the first is greater than the second), we'll swap them round; if their order is valid, we'll do nothing. A glance at our list confirms the latter ‒ the elements 01 and 02 are in the proper order, as in 8 < 10.
+
+Now look at the second and the third elements. They're in the wrong positions. We have to swap them:
+
+```
+8 - 6 - 10 - 2 - 4
+```
+
+We go further, and look at the third and the fourth elements. Again, this is not what it's supposed to be like. We have to swap them:
+
+```
+8 - 6 - 2 - 10 - 4
+```
+
+Now we check the fourth and the fifth elements. Yes, they too are in the wrong positions. Another swap occurs:
+
+```
+8 - 6 - 2 - 4 - 10 
+```
+
+The first pass through the list is already finished. We're still far from finishing our job, but something curious has happened in the meantime. The largest element, 10, has already gone to the end of the list. Note that this is the desired place for it. All the remaining elements form a picturesque mess, but this one is already in place.
+
+Now, for a moment, try to imagine the list in a slightly different way ‒ namely, like this:
+
+```
+10
+4
+2
+6
+8
+```
+
+Look ‒ 10 is at the top. We could say that it floated up from the bottom to the surface, just like the bubble in a glass of champagne. The sorting method derives its name from the same observation ‒ it's called a bubble sort.
+
+Now we start with the second pass through the list. We look at the first and second elements - a swap is necessary:
+
+| 6 | 8 | 2 | 4 | 10 |
+| :-: | :-: | :-: | :-: | :-: |
+
+Time for the second and third elements: we have to swap them too:
+
+| 6 | 2 | 8 | 4 | 10 |
+| :-: | :-: | :-: | :-: | :-: |
+
+Now the third and fourth elements, and the second pass is finished, as `8` is already in place:
+
+| 6 | 2 | 4 | 8 | 10 |
+| :-: | :-: | :-: | :-: | :-: |
+
+We start the next pass immediately. Watch the first and the second elements carefully - another swap is needed:
+
+| 2 | 6 | 4 | 8 | 10 |
+| :-: | :-: | :-: | :-: | :-: |
+
+Now `6` needs to go into place. We swap the second and the third elements:
+
+| 2 | 4 | 6 | 8 | 10 |
+| :-: | :-: | :-: | :-: | :-: |
+
+The list is already sorted. We have nothing more to do. This is exactly what we want.
+
+As you can see, the essence of this algorithm is simple: we compare the adjacent elements, and by swapping some of them, we achieve our goal.
+
+Let's code into Python all the actions performed during a single pass through the list, and then we'll consider how many passes we actually need in order to perform it. We haven't explained this so far, and we'll do that a little later.
+
+
+# Sorting a list
+
+How many passes do we need to sort the entire list?
+
+We solve this issue in the following way: we introduce another variable; its task is to observe if any swap has been done during the pass or not; if there is no swap, then the list is already sorted, and nothing more has to be done. We create a variable named swapped, and we assign a value of False to it, to indicate that there are no swaps. Otherwise, it will be assigned True.
+
+
+```python
+my_list = [8, 10, 6, 2, 4]  # list to sort
+
+for i in range(len(my_list) - 1):  # we need (5 - 1) comparisons
+    if my_list[i] > my_list[i + 1]:  # compare adjacent elements
+        my_list[i], my_list[i + 1] = my_list[i + 1], my_list[i]  # If we end up here, we have to swap the elements.
+
+```
+
+You should be able to read and understand this program without any problems:
+
+```python
+ my_list = [8, 10, 6, 2, 4]  # list to sort
+swapped = True  # It's a little fake, we need it to enter the while loop.
+ 
+while swapped:
+    swapped = False  # no swaps so far
+    for i in range(len(my_list) - 1):
+        if my_list[i] > my_list[i + 1]:
+            swapped = True  # a swap occurred!
+            my_list[i], my_list[i + 1] = my_list[i + 1], my_list[i]
+ 
+print(my_list)
+  
+```
+
+## The bubble sort – interactive version
+
+In the editor you can see a complete program, enriched by a conversation with the user, and allowing the user to enter and to print elements from the list: The bubble sort ‒ final interactive version.
+
+```python
+
+my_list = []
+swapped = True
+num = int(input("How many elements do you want to sort: "))
+
+for i in range(num):
+    val = float(input("Enter a list element: "))
+    my_list.append(val)
+
+while swapped:
+    swapped = False
+    for i in range(len(my_list) - 1):
+        if my_list[i] > my_list[i + 1]:
+            swapped = True
+            my_list[i], my_list[i + 1] = my_list[i + 1], my_list[i]
+
+print("\nSorted:")
+print(my_list)
+
+```
+
+Python, however, has its own sorting mechanisms. No one needs to write their own sorts, as there is a sufficient number of ready-to-use tools.
+
+We explained this sorting system to you because it's important to learn how to process a list's contents, and to show you how real sorting may work.
+
+If you want Python to sort your list, you can do it like this:
+
+```python
+ my_list = [8, 10, 6, 2, 4]
+my_list.sort()
+print(my_list)
+  
+```
+The snippet's output is as follows:
+Output
+```
+[2, 4, 6, 8, 10]
+```
+
+## SECTION SUMMARY
+
+1. You can use the sort() method to sort elements of a list, e.g.:
+
+```python
+ lst = [5, 3, 1, 2, 4]
+print(lst)
+ 
+lst.sort()
+print(lst)  # outputs: [1, 2, 3, 4, 5]
+  
+```
+
+2. There is also a list method called reverse(), which you can use to reverse the list, e.g.:
+```python
+ lst = [5, 3, 1, 2, 4]
+print(lst)
+ 
+lst.reverse()
+print(lst)  # outputs: [4, 2, 1, 3, 5]
+```
+
+# Section 6 – Operations on lists
+
+The inner life of lists
+
+Now we want to show you one important, and very surprising, feature of lists, which strongly distinguishes them from ordinary variables.
+
+We want you to memorize it ‒ it may affect your future programs, and cause severe problems if forgotten or overlooked.
+
+Take a look at the snippet in the editor.
+
+```python
+list_1 = [1]
+list_2 = list_1
+list_1[0] = 2
+print(list_2)
+
+```
+
+The program:
+
+    creates a one-element list named list_1;
+    assigns it to a new list named list_2;
+    changes the only element of list_1;
+    prints out list_2.
+
+The surprising part is the fact that the program will output: [2], not [1], which seems to be the obvious solution.
+
+Lists (and many other complex Python entities) are stored in different ways than ordinary (scalar) variables.
+
+You could say that:
+
+    the name of an ordinary variable is the name of its content;
+    the name of a list is the name of a memory location where the list is stored.
+
+Read these two lines once more ‒ the difference is essential for understanding what we are going to talk about next.
+
+The assignment: list_2 = list_1 copies the name of the array, not its contents. In effect, the two names (list_1 and list_2) identify the same location in the computer memory. Modifying one of them affects the other, and vice versa.
+
+How do you cope with that?
+
+## Powerful slices
+
+Fortunately, the solution is at your fingertips ‒ it's called a slice.
+
+A slice is an element of Python syntax that allows you to make a brand new copy of a list, or parts of a list.
+
+It actually copies the list's contents, not the list's name.
+
+This is exactly what you need. Take a look at the snippet below:
+
+
+```´ython
+ list_1 = [1]
+list_2 = list_1[:]
+list_1[0] = 2
+print(list_2) 
+```
+Its output is [1].
+
+This inconspicuous part of the code described as [:] is able to produce a brand new list.
+
+One of the most general forms of the slice looks as follows:
+
+my_list[start:end]
+
+As you can see, it resembles indexing, but the colon inside makes a big difference.
+
+A slice of this form makes a new (target) list, taking elements from the source list ‒ the elements of the indices from start to end - 1.
+
+Note: not to end but to end - 1. An element with an index equal to end is the first element which does not take part in the slicing.
+
+Using negative values for both start and end is possible (just like in indexing).
+
+
+Take a look at the snippet:
+
+```python
+ my_list = [10, 8, 6, 4, 2]
+new_list = my_list[1:3]
+print(new_list)
+  
+  ```
+  The new_list list will have end - start (3 - 1 = 2) elements ‒ the ones with indices equal to 1 and 2 (but not 3).
+
+The snippet's output is: [8, 6]
+
+
+## Slices – negative indices
+
+Look at the snippet below:
+
+my_list[start:end]
+ 
+
+To repeat:
+
+    start is the index of the first element included in the slice;
+    end is the index of the first element not included in the slice.
+
+This is how negative indices work with the slice:
+
+```python
+
+ my_list = [10, 8, 6, 4, 2]
+new_list = my_list[1:-1]
+print(new_list)
+```
+
+The snippet's output is:
+
+```
+[8, 6, 4] 
+```
+If the start specifies an element lying further than the one described by the end (from the list's beginning), the slice will be empty:
+
+```python
+ my_list = [10, 8, 6, 4, 2]
+new_list = my_list[-1:1]
+print(new_list)
+
+```
+
+R:
+```
+[]
+```
+
+If you omit the start in your slice, it is assumed that you want to get a slice beginning at the element with index 0.
+
+In other words, the slice of this form:
+
+```
+my_list[:end]
+```
+
+is a more compact equivalent of:
+```
+my_list[0:end]
+```
+Look at the snippet below:
+
+```python
+ my_list = [10, 8, 6, 4, 2]
+new_list = my_list[:3]
+print(new_list)
+  
+  ```
+This is why its output is: [10, 8, 6].
+
+Similarly, if you omit the end in your slice, it is assumed that you want the slice to end at the element with the index len(my_list).
+
+In other words, the slice of this form:
+
+```
+my_list[start:]
+  
+  ```
+
+  is a more compact equivalent of:
+```
+my_list[start:len(my_list)] 
+```
+
+Look at the following snippet:
+
+```python
+ my_list = [10, 8,  ]
+new_list = my_list[3:]
+print(new_list)
+```
+Its output is therefore: [4, 2].
+
+As we've said before, omitting both start and end makes a copy of the whole list:
+
+```python
+ my_list = [10, 8, 6, 4, 2]
+new_list = my_list[:]
+print(new_list)
+```
+
+The snippet's output is: [10, 8, 6, 4, 2].
+
+# More about the del instruction
+
+The previously described del instruction is able to delete more than just a list's elements at once ‒ it can delete slices too:
+
+```python
+my_list = [10, 8, 6, 4, 2]
+del my_list[1:3]
+print(my_list)
+```
+Note: in this case, the slice doesn't produce any new list!
+
+The snippet's output is: [10, 4, 2].
+
+Deleting all the elements at once is possible too:
+
+```python
+
+ my_list = [10, 8, 6, 4, 2]
+del my_list[:]
+print(my_list)
+```
+The list becomes empty, and the output is: [].
+
+Removing the slice from the code changes its meaning dramatically.
+
+Take a loo
+
+```python
+ my_list = [10, 8, 6, 4, 2]
+del my_list
+print(my_list)
+```
+
+The del instruction will delete the list itself, not its content.
+
+The print() function invocation from the last line of the code will then cause a runtime error.
+
+# The in and not in operators
+
+Python offers two very powerful operators, able to look through the list in order to check whether a specific value is stored inside the list or not.
+
+These operators are:
+
+```
+elem in my_list
+elem not in my_list
+
+```
+The first of them (in) checks if a given element (its left argument) is currently stored somewhere inside the list (the right argument) ‒ the operator returns True in this case.
+
+The second (not in) checks if a given element (its left argument) is absent in a list ‒ the operator returns True in this case.
+
+Look at the code in the editor. The snippet shows both operators in action. Can you guess its output? Run the program to check if you were right.
+
+```python
+my_list = [0, 3, 12, 8, 2]
+
+print(5 in my_list)
+print(5 not in my_list)
+print(12 in my_list)
+
+```
+
+# Lists – some simple programs
+
+Now we want to show you some simple programs utilizing lists.
+
+The first of them tries to find the greater value in the list. Look at the code in the editor.
+
+```python
+my_list = [17, 3, 11, 5, 1, 9, 7, 15, 13]
+largest = my_list[0]
+
+for i in range(1, len(my_list)):
+    if my_list[i] > largest:
+        largest = my_list[i]
+
+print(largest)
+```
+The concept is rather simple ‒ we temporarily assume that the first element is the largest one, and check the hypothesis against all the remaining elements in the list.
+
+The code outputs 17 (as expected).
+
+The code may be rewritten to make use of the newly introduced form of the for loop:
+```python
+my_list = [17, 3, 11, 5, 1, 9, 7, 15, 13]
+largest = my_list[0]
+
+for i in my_list:
+    if i > largest:
+        largest = i
+
+print(largest)
+
+```
+
+
+The program above performs one unnecessary comparison, when the first element is compared with itself, but this isn't a problem at all.
+
+The code outputs 17, too (nothing unusual).
+
+If you need to save computer power, you can use a slice:
+
+```python
+ my_list = [17, 3, 11, 5, 1, 9, 7, 15, 13]
+largest = my_list[0]
+ 
+for i in my_list[1:]:
+    if i > largest:
+        largest = i
+ 
+print(largest)
+```
+
+The question is: which of these two actions consumes more computer resources ‒ just one comparison, or slicing almost all of a list's elements?
+
+Now let's find the location of a given element inside a list:
+
+
+```python
+ my_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+to_find = 5
+found = False
+ 
+for i in range(len(my_list)):
+    found = my_list[i] == to_find
+    if found:
+        break
+ 
+if found:
+    print("Element found at index", i)
+else:
+    print("absent") 
+```
+Note:
+
+    the target value is stored in the to_find variable;
+    the current status of the search is stored in the found variable (True/False)
+    when found becomes True, the for loop is exited.
+
+Let's assume that you've chosen the following numbers in the lottery: 3, 7, 11, 42, 34, 49.
+
+The numbers that have been drawn are: 5, 11, 9, 42, 3, 49.
+
+The question is: how many numbers have you hit?
+
+This program will give you the answer:
+
+```python
+ drawn = [5, 11, 9, 42, 3, 49]
+bets = [3, 7, 11, 42, 34, 49]
+hits = 0
+ 
+for number in bets:
+    if number in drawn:
+        hits += 1
+ 
+print(hits) 
+```
+Note:
+
+    the drawn list stores all the drawn numbers;
+    the bets list stores your bets;
+    the hits variable counts your hits.
+
+The program output is: 4.
+
+#   LAB   Operating with lists ‒ basics
+
+Scenario
+
+Imagine a list ‒ not very long, not very complicated, just a simple list containing some integer numbers. Some of these numbers may be repeated, and this is the clue. We don't want any repetitions. We want them to be removed.
+
+Your task is to write a program which removes all the number repetitions from the list. The goal is to have a list in which all the numbers appear not more than once.
+
+Note: assume that the source list is hard-coded inside the code ‒ you don't have to enter it from the keyboard. Of course, you can improve the code and add a part that can carry out a conversation with the user and obtain all the data from her/him.
+
+Hint: we encourage you to create a new list as a temporary work area ‒ you don't need to update the list in situ.
+
+We've provided no test data, as that would be too easy. You can use our skeleton instead.
+
+```python
+# Lista original con elementos repetidos (puedes cambiar estos números)
+my_list = [1, 2, 4, 4, 1, 4, 2, 6, 2, 9]
+
+# Lista temporal para almacenar los elementos únicos
+unique_list = []
+
+# Recorremos la lista original
+for number in my_list:
+    # Si el número NO está en la lista temporal, lo agregamos
+    if number not in unique_list:
+        unique_list.append(number)
+
+# Actualizamos la lista original con el contenido de la lista limpia
+my_list = unique_list
+
+# Imprimimos el resultado final
+print("La lista con elementos únicos:")
+print(my_list)
+```
+
+# SECTION SUMMARY
+
+1. If you have a list list_1, then the following assignment: list_2 = list_1 does not make a copy of the list_1 list, but makes the variables list_1 and list_2 point to one and the same list in memory. For example:
+
+```python
+ vehicles_one = ['car', 'bicycle', 'motor']
+print(vehicles_one) # outputs: ['car', 'bicycle', 'motor']
+ 
+vehicles_two = vehicles_one
+del vehicles_one[0] # deletes 'car'
+print(vehicles_two) # outputs: ['bicycle', 'motor']
+  
+```
+
+
+
+2. If you want to copy a list or part of the list, you can do it by performing slicing:
+
+```python
+ colors = ['red', 'green', 'orange']
+ 
+copy_whole_colors = colors[:]  # copy the entire list
+copy_part_colors = colors[0:2]  # copy part of the list
+```
+
+3. You can use negative indices to perform slices, too. For example:
+
+```python
+ sample_list = ["A", "B", "C", "D", "E"]
+new_list = sample_list[2:-1]
+print(new_list)  # outputs: ['C', 'D']
+
+```
+4. The start and end parameters are optional when performing a slice: list[start:end], e.g.:
+
+```python
+ my_list = [1, 2, 3, 4, 5]
+slice_one = my_list[2: ]
+slice_two = my_list[ :2]
+slice_three = my_list[-2: ]
+ 
+print(slice_one)  # outputs: [3, 4, 5]
+print(slice_two)  # outputs: [1, 2]
+print(slice_three)  # outputs: [4, 5]
+```
+
+5. You can delete slices using the del instruction:
+
+```python
+ my_list = [1, 2, 3, 4, 5]
+del my_list[0:2]
+print(my_list)  # outputs: [3, 4, 5]
+ 
+del my_list[:]
+print(my_list)  # deletes the list content, outputs: []
+```
+
+6. You can test if some items exist in a list or not using the keywords in and not in, e.g.:
+
+```python
+ my_list = ["A", "B", 1, 2]
+ 
+print("A" in my_list)  # outputs: True
+print("C" not in my_list)  # outputs: True
+print(2 not in my_list)  # outputs: False
+```
+
+
