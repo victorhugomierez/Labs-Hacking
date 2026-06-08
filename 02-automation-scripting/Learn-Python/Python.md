@@ -6110,4 +6110,405 @@ print(cube[2][2][0])  # outputs: ':)'
 
 ---
 
+# 4.1 Section 1 – Functions
 
+Functions are essential in programming for two main reasons: eliminating code duplication and managing complexity through decomposition.
+## 1. Eliminating Duplication
+
+* The Problem: Copying and pasting the same code blocks creates massive maintenance issues.
+* The Risk: If you discover a bug or need to change a value, you must hunt down and fix every single cloned instance manually.
+* The Solution: Isolate repeated code into a single function. You can then invoke it from multiple points in your program and update the logic in just one place.
+
+## 2. Decomposition
+
+* The Problem: Complex algorithms cause code to grow uncontrollably, making programs unreadable and hard to navigate.
+* The Risk: Adding excessive comments to explain massive blocks of text actually makes the code larger and harder to read.
+* The Solution: Divide a large problem into small, well-isolated pieces. A good function should be small enough to understand in a single glance.
+
+## 3. Isolated Testing
+
+* The Benefit: Breaking a program down into short, independent functions simplifies development.
+* The Process: You can build, run, and test each individual piece of code separately before combining them into the final project.
+
+Would you like to start writing your first custom function, or should we look at how to pass information into them using arguments?
+
+
+#  Decomposition
+
+* Main purpose: Dividing large, complex problems allows a team of developers to work together efficiently instead of relying on a single person.
+
+* Shared responsibility: Distributing code tasks among team members spreads both the daily workload and the ownership of the final product.
+
+* Modular execution: The problem must be split into clearly defined sets of functions that are written separately and packed into different modules to create the final system.
+
+## Your first function
+
+Take a look at the snippet in the editor.
+
+```python
+print("Enter a value: ")
+a = int(input())
+
+print("Enter a value: ")
+b = int(input())
+
+print("Enter a value: ")
+c = int(input())
+
+```
+
+It's rather simple, but we only want it to be an example of transforming a repeating part of a code into a function.
+
+The messages sent to the console by the print() function are always the same. Of course, there's nothing really bad in such a code, but try to imagine what you would have to do if your boss asked you to change the message to make it more polite, e.g., to start it with the phrase "Please,".
+
+It seems that you'd have to spend some time changing all the occurrences of the message (you'd use a clipboard, of course, but it wouldn't make your life much easier). It's obvious that you'd probably make some mistakes during the amendment process, and you (and your boss) would get a bit frustrated.
+
+Is it possible to separate such a repeatable part of the code, name it, and make it reusable? It would mean that a change made once in one place would be propagated to all the places where it's used.
+
+Of course, a code like this should work only when it's explicitly launched.
+
+Yes, it's possible. This is exactly what functions are for.
+
+You need to define it. The word define is significant here.
+
+This is what the simplest function definition looks like:
+
+```
+def function_name():
+    function_body
+```
+
+
+
+*   It always starts with the keyword def (for define)
+
+*  next after def goes the name of the function (the rules for naming functions are exactly the same as for naming variables)
+
+* after the function name, there's a place for a pair of parentheses (they contain nothing here, but that will change soon)
+
+* the line has to be ended with a colon;
+
+* the line directly after def begins the function body ‒ a couple (at least one) of necessarily nested instructions, which will be executed every time the function is invoked; note: the function ends where the nesting ends, so you have to be careful.
+
+
+We're ready to define our prompting function. We'll name it message ‒ here it is:
+
+```python
+ def message():
+    print("Enter a value: ") 
+ ```
+
+The function is extremely simple, but fully usable. We've named it message
+
+
+
+Our code contains the function definition now:
+
+```python
+ def message():
+    print("Enter a value: ")
+ 
+print("We start here.")
+print("We end here.")
+```
+
+Note: we don't use the function at all ‒ there's no invocation of it inside the code.
+
+When you run it, you see the following output:
+
+Output
+```
+We start here.
+We end here.
+```
+This means that Python reads the function's definitions and remembers them, but won't launch any of them without your permission.
+
+We've modified the code now ‒ we've inserted the function's invocation between the start and end messages:
+
+```python
+def message():
+    print("Enter a value: ")
+
+print("We start here.")
+message()
+print("We end here.")
+```
+
+R:
+```
+We start here.
+Enter a value:
+We end here. 
+```
+
+#  How functions work
+
+
+It tries to show you the whole process:
+
+when you invoke a function, Python remembers the place where it happened and jumps into the invoked function;
+the body of the function is then executed;
+reaching the end of the function forces Python to return to the place directly after the point of invocation.
+
+```python
+  def message(): ◄──────────────────────────┐
+      print("Enter next value: ")           │ (invocation)
+                                            │
+  print("We start here.")                   │
+  message() ────────────────────────────────┘
+  print("The end is here.") ◄───────────────┐
+                                            │ (return)
+                                            └─────┘
+
+```
+
+There are two, very important, catches. Here's the first of them:
+
+You mustn't invoke a function which is not known at the moment of invocation.
+
+Remember - Python reads your code from top to bottom. It's not going to look ahead in order to find a function you forgot to put in the right place ("right" means "before invocation".)
+
+We've inserted an error into this code ‒ can you see the difference?
+
+```python
+print("We start here.")
+message()
+print("We end here.")
+
+
+def message():
+    print("Enter a value: ")
+```
+We've moved the function to the end of the code. Is Python able to find it when the execution reaches the invocation?
+
+No, it isn't. The error message will read:
+
+Output
+```
+NameError: name 'message' is not defined
+```
+
+Don't try to force Python to look for functions you didn't deliver at the right time.
+
+The second catch sounds a little simpler:
+
+You mustn't have a function and a variable of the same name.
+
+The following snippet is erroneous:
+
+```python
+def message():
+    print("Enter a value: ")
+
+message = 1
+```
+
+Assigning a value to the name message causes Python to forget its previous role. The function named message becomes unavailable.
+
+Fortunately, you're free to mix your code with functions ‒ you're not obliged to put all your functions at the top of your source file.
+
+Look at the snippet:
+
+```python
+print("We start here.")
+
+
+def message():
+    print("Enter a value: ")
+
+message()
+
+print("We end here.")
+```
+
+It may look strange, but it's completely correct, and works as intended.
+
+Let's return to our primary example, and employ the function for the right job, like here:
+
+
+```python
+def message():
+    print("Enter a value: ")
+
+message()
+a = int(input())
+message()
+b = int(input())
+message()
+c = int(input())
+
+```
+Modifying the prompting message is now easy and clear - you can do it by changing the code in just one place ‒ inside the function's body.
+
+Open the editor, and try to do it yourself.
+
+
+# SECTION SUMMARY
+
+1. A function is a block of code that performs a specific task when the function is called (invoked). You can use functions to make your code reusable, better organized, and more readable. Functions can have parameters and return values.
+
+2. There are at least four basic types of functions in Python:
+
+    built-in functions which are an integral part of Python (such as the print() function). You can see a complete list of built-in Python functions at https://docs.python.org/3/library/functions.html.
+       
+
+3. You can define your own function using the def keyword and the following syntax:
+```
+def your_function(optional parameters):
+    # the body of the function
+```
+
+You can define a function which doesn't take any arguments, e.g.:
+
+```python
+def message(): # defining a function
+    print("Hello") # body of the function
+ 
+message() # calling the function
+```
+
+
+You can define a function which takes arguments, too, just like the one-parameter function below:
+
+```python
+def hello(name): # defining a function
+    print("Hello,", name) # body of the function
+ 
+ 
+name = input("Enter your name: ")
+ 
+hello(name) # calling the function
+```
+
+We'll tell you more about parametrized functions in the next section. Don't worry.
+
+
+# 4.2 Section 2 – How functions communicate with their environment
+
+In this section you will learn about parameterless and parameterized functions, as well as how to write one-, two-, and three-parameter functions and pass arguments to them. Let's begin!
+
+
+# Parameterized functions
+
+The function's full power reveals itself when it can be equipped with an interface that is able to accept data provided by the invoker. Such data can modify the function's behavior, making it more flexible and adaptable to changing conditions.
+
+A parameter is actually a variable, but there are two important factors that make parameters different and special:
+
+    parameters exist only inside functions in which they have been defined, and the only place where the parameter can be defined is a space between a pair of parentheses in the def statement;
+    assigning a value to the parameter is done at the time of the function's invocation, by specifying the corresponding argument.
+
+
+```
+def function(parameter):
+    ###
+```
+
+The definition specifies that our function operates on just one parameter named number. You can use it as an ordinary variable, but only inside the function ‒ it isn't visible anywhere else.
+
+Let's now improve the function's body:
+
+```python
+def message(number):
+    print("Enter a number:", number)
+
+```
+We've made use of the parameter. Note: we haven't assigned the parameter with any value. Is it correct?
+
+Yes, it is.
+
+A value for the parameter will arrive from the function's environment.
+
+Remember: specifying one or more parameters in a function's definition is also a requirement, and you have to fulfil it during invocation. You must provide as many arguments as there are defined parameters.
+
+Failure to do so will cause an error.
+
+```python
+def message(number):
+    print("Enter a number:", number)
+
+message()
+```
+
+R:
+```
+Traceback (most recent call last):
+  File "main.py", line 4, in <module>
+    message()
+TypeError: message() missing 1 required positional argument: 'number'
+```
+
+This looks better, for sure:
+
+```python
+ def message(number):
+    print("Enter a number:", number)
+ 
+message(1) 
+```
+
+Moreover, it behaves better. The code will produce the following output:
+
+
+```
+Enter a number: 1
+```
+Can you see how it works? The value of the argument used during invocation (1) has been passed into the function, setting the initial value of the parameter named number..
+
+We have to make you sensitive to one important circumstance.
+
+It's legal, and possible, to have a variable named the same as a function's parameter.
+
+The snippet illustrates the phenomenon:
+
+```python
+ def message(number):
+    print("Enter a number:", number)
+ 
+number = 1234
+message(1)
+print(number) 
+```
+A situation like this activates a mechanism called shadowing:
+
+    parameter x shadows any variable of the same name, but...
+    ... only inside the function defining the parameter.
+
+The parameter named number is a completely different entity from the variable named number.
+
+This means that the snippet above will produce the following output:
+
+```
+Enter a number: 1
+1234 
+```
+
+A function can have as many parameters as you want, but the more parameters you have, the harder it is to memorize their roles and purposes.
+
+Let's modify the function ‒ it has two parameters now:
+
+```
+def message(what, number):
+    print("Enter", what, "number", number)
+```
+
+This also means that invoking the function will require two arguments.
+
+The first new parameter is intended to carry the name of the desired value.
+
+```python
+def message(what, number):
+    print("Enter", what, "number", number)
+
+message("telephone", 11)
+message("price", 5)
+message("number", "number")
+
+```
+
+This is the output you're about to see:
+
+```
+Enter telephone number 11
+Enter price number 5
+Enter number number number 
+```
