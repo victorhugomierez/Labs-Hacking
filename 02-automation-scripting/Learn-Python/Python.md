@@ -6578,7 +6578,7 @@ introduction("Quick", "Jesse")
 introduction("Kent", "Clark") 
 ```
 
-# Keyword argument passing
+## Keyword argument passing
 
 Python offers another convention for passing arguments, where the meaning of the argument is dictated by its name, not by its position ‒ it's called keyword argument passing.
 
@@ -6593,7 +6593,7 @@ introduction(last_name = "Skywalker", first_name = "Luke")
 
 ```
 
-#  Keyword argument passing
+##  Keyword argument passing
 
 Python offers another convention for passing arguments, where the meaning of the argument is dictated by its name, not by its position ‒ it's called keyword argument passing.
 
@@ -6635,7 +6635,7 @@ TypeError: introduction() got an unexpected keyword argument 'surname'
 Try it out yourself.
 
 
-# Mixing positional and keyword arguments
+## Mixing positional and keyword arguments
 
 You can mix both styles if you want ‒ there is only one unbreakable rule: you have to put positional arguments before keyword arguments.
 
@@ -6714,7 +6714,7 @@ Output
 TypeError: adding() got multiple values for argument 'a'
 ```
 
-#  Parametrized functions – more details
+##  Parametrized functions – more details
 
 It happens at times that a particular parameter's values are in use more often than others. Such arguments may have their default (predefined) values taken into consideration when their corresponding arguments have been omitted.
 
