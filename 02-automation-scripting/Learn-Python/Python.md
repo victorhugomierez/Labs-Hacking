@@ -6999,7 +6999,146 @@ This lesson is interesting!
 'Boredom Mode' ON.
 This lesson is boring..
 ```
+Is it punishable? Not at all.
+
+The only disadvantage is that the result has been irretrievably lost.
+
+Don't forget:
+
+    you are always allowed to ignore the function's result, and be satisfied with the function's effect (if the function has any)
+    if a function is intended to return a useful result, it must contain the second variant of the return instruction.
+
+Wait a minute ‒ does this mean that there are useless results, too? Yes, in some sense.
+
 
 ##  A few words about None
+
+A few words about None
+
+Let us introduce you to a very curious value (to be honest, a none value) named None.
+
+Its data doesn't represent any reasonable value ‒ actually, it's not a value at all; hence, it mustn't take part in any expressions.
+
+For example, a snippet like this:
+
+```
+print(None + 2)
+```
+will cause a runtime error, described by the following diagnostic message:
+Output
+```
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'int'
+```
+
+Note: None is a keyword.
+
+There are only two kinds of circumstances when None can be safely used:
+
+    when you assign it to a variable (or return it as a function's result)
+    when you compare it with a variable to diagnose its internal state.
+
+Just like here:
+
+```python
+value = None
+if value is None:
+    print("Sorry, you don't carry any value")
+
+```
+Don't forget this: if a function doesn't return a certain value using a return expression clause, it is assumed that it implicitly returns None.
+
+Let's test it.
+
+Take a look at the code in the editor.
+
+```python
+def strange_function(n):
+    if(n % 2 == 0):
+        return True
+```
+
+It's obvious that the strange_function function returns True when its argument is even.
+
+What does it return otherwise?
+
+We can use the following code to check it:
+
+```python
+print(strange_function(2))
+print(strange_function(1))
+
+```
+This is what we see in the console:
+Output
+
+True
+None
+
+Don't be surprised next time you see None as a function result ‒ it may be the symptom of a subtle mistake inside the function.
+
+## Effects and results: lists and functions
+
+There are two additional questions that should be answered here.
+
+The first is: may a list be sent to a function as an argument?
+
+Of course it may! Any entity recognizable by Python can play the role of a function argument, although it has to be assured that the function is able to cope with it.
+
+So, if you pass a list to a function, the function has to handle it like a list.
+
+A function like this one here:
+
+```python
+def list_sum(lst):
+    s = 0
+
+    for elem in lst:
+        s += elem
+
+    return s
+
+```
+and invoked like this:
+```python
+print(list_sum([5, 4, 3])) 
+```
+will return 12 as a result, but you should expect problems if you invoke it in this risky way:
+
+```python
+print(list_sum(5)) 
+```
+
+Python's response will be unequivocal:
+Output
+```
+TypeError: 'int' object is not iterable
+```
+This is caused by the fact that a single integer value mustn't be iterated through by the for loop.
+
+The second question is: may a list be a function result?
+
+Yes, of course! Any entity recognizable by Python can be a function result.
+
+Look at the code in the editor:
+
+```python
+def strange_list_fun(n):
+    strange_list = []
+    
+    for i in range(0, n):
+        strange_list.insert(0, i)
+    
+    return strange_list
+
+print(strange_list_fun(5))
+```
+
+R:
+```
+[4, 3, 2, 1, 0]
+```
+Now you can write functions with and without results.
+
+Let's dive a little deeper into the issues connected with variables in functions. This is essential for creating effective and safe functions.
 
 
