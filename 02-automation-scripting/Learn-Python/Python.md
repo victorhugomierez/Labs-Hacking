@@ -7142,3 +7142,284 @@ Now you can write functions with and without results.
 Let's dive a little deeper into the issues connected with variables in functions. This is essential for creating effective and safe functions.
 
 
+##  LAB   A leap year: writing your own functions
+
+Your task is to write and test a function which takes one argument (a year) and returns True if the year is a leap year, or False otherwise.
+
+The seed of the function is already shown in the skeleton code in the editor.
+
+Note: we've also prepared a short testing code, which you can use to test your function.
+
+The code uses two lists ‒ one with the test data, and the other containing the expected results. The code will tell you if any of your results are invalid.
+
+```python
+def is_year_leap(year):
+    #
+    # Write your code here.
+    #
+    
+    return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+
+test_data = [1900, 2000, 2016, 1987]
+test_results = [False, True, True, False]
+for i in range(len(test_data)):
+    yr = test_data[i]
+    print(yr,"->",end="")
+    result = is_year_leap(yr)
+    if result == test_results[i]:
+        print("OK")
+    else:
+        print("Failed")
+```
+R:
+```
+1900 ->OK
+2000 ->OK
+2016 ->OK
+1987 ->OK
+```
+
+The code is divided into two parts: The Function (the logic) and The Test (the validation).
+
+1. The Function: is_year_leap(year)
+
+This is where the system's "intelligence" resides. We need to evaluate the calendar rules.
+
+```Python
+
+def is_year_leap(year):
+
+return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+```
+**year % 4 == 0:** The **%** (modulo) symbol gives us the remainder of a division. If the remainder is 0, it means the number is exactly divisible by 4. Basic leap year rule.
+
+**and year % 100 != 0:** Here we apply the exception. If the year is divisible by 100 (like 1900), it shouldn't be a leap year, unless...
+
+**or year % 400 == 0:** This is the "super rule". If the year is divisible by 400 (like 2000), then it is a leap year, regardless of whether it is also divisible by 100.
+
+The **Return:** The function returns True or False directly. This is much more efficient than using many if/else statements.
+
+2. The Test: The "test bench"
+
+To know if our code works, we use test data (test_data and test_results).
+
+```Python
+
+test_data = [1900, 2000, 2016, 1987]
+test_results = [False, True, True, False]
+```
+This is what we call Unit Testing. You have one list with the years you want to test and another with what the results should be (the correct answer).
+
+3. The Validation Loop
+```Python
+
+for i in range(len(test_data)):
+
+yr = test_data[i]
+
+print(yr, "->", end="")
+
+result = is_year_leap(yr)
+
+if result == test_results[i]:
+
+print("OK")
+
+else:
+
+print("Failed")
+```
+**for i in range(len(test_data)):** This loop iterates through the index of the list. If the list has 4 elements, i will be 0, 1, 2, and 3.
+
+**yr = test_data[i]:** On each iteration, we extract the corresponding year.
+
+**result = is_year_leap(yr):** We call our function and store the result.
+
+**if result == test_results[i]:** We compare what our function calculated against the expected result stored in the list.
+
+**If** they match, everything is OK.
+
+**If not**, something went wrong (Failed).
+
+## LAB   How many days: writing and using your own functions
+
+Your task is to write and test a function which takes two arguments (a year and a month) and returns the number of days for the given year-month pair (while only February is sensitive to the year value, your function should be universal).
+
+The initial part of the function is ready. Now, convince the function to return None if its arguments don't make sense.
+
+Of course, you can (and should) use the previously written and tested function (LAB 4.3.1.6). It may be very helpful. We encourage you to use a list filled with the months' lengths. You can create it inside the function ‒ this trick will significantly shorten the code.
+
+```python
+def is_year_leap(year):
+
+    # Your code from the previous LAB.
+    return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+
+def days_in_month(year, month):
+    #
+    # Write your new code here.
+    #
+    # Primero: validamos que los argumentos tengan sentido.
+    # Si el mes no está entre 1 y 12, devolvemos None.
+    if month < 1 or month > 12:
+        return None
+    
+    # Creamos una lista con los días de cada mes.
+    # Usamos un 0 al principio para que el índice 1 coincida con "Enero".
+    days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    
+    # Si es febrero (mes 2) y el año es bisiesto, cambiamos el 28 por 29.
+    if month == 2 and is_year_leap(year):
+        return 29
+    
+    return days[month]
+
+# El resto del código de testeo sigue igual que lo tenías...
+
+test_years = [1900, 2000, 2016, 1987]
+test_months = [2, 2, 1, 11]
+test_results = [28, 29, 31, 30]
+for i in range(len(test_years)):
+    yr = test_years[i]
+    mo = test_months[i]
+    print(yr, mo, "->", end="")
+    result = days_in_month(yr, mo)
+    if result == test_results[i]:
+        print("OK")
+    else:
+        print("Failed")
+```
+R:
+```
+1900 2 ->OK
+2000 2 ->OK
+2016 1 ->OK
+1987 11 ->OK
+```
+
+1. The Test Engine
+
+Before looking at the functions, we need to understand how the test loop starts.
+
+len(test_years): Python looks at the list test_years and sees that it has 4 elements. Therefore, the loop for i in range(...) will execute 4 times, with i taking the values ​​0, 1, 2, 3.
+
+Iteration 0 (i = 0): We extract the data. yr becomes 1900 and mo becomes 2.
+
+The call: The code executes **result = days_in_month(1900, 2)**. This is where Python jumps into your new function.
+
+2. Inside days_in_month (Processing 1900, Month 2)
+
+Now we are inside the function. Let's see how it processes the data.
+
+Input Validation: if month < 1 or month > 12: Since 2 is a valid month, the code skips this block and moves forward.
+
+List Creation: Python reads your list of days. Remember that days[2] holds the value 28.
+
+The Critical Condition: if month == 2 and is_year_leap(year):. Python sees that it is indeed month 2, so it must check the second part of the condition. To resolve this, pause execution and jump to your other function, passing the year 1900.
+
+3. The Leap Year Check (The Jump to the First Function)
+
+Inside is_year_leap(1900), the program does the math. 1900 is divisible by 4, but it also divides by 100, and NOT by 400. According to the rule, this returns False.
+
+Python returns to days_in_month. Now the condition reads like this: if True and False:. Since there is a False, the global condition fails.
+
+It skips the return 29.
+
+The Final Return: It reaches the last line: return days[month]. Since month is 2, it looks up days[2] in the list and returns 28.
+
+4. Back to the Loop (Validation)
+
+Now we are back in the main loop. The variable result stores the value 28.
+
+if result == test_results[i]:. Python compares the 28 returned by your function with the 28 stored in test_results[0].
+
+It's a perfect match, so it prints "OK".
+
+5. The Exception: Iteration 1 (The year 2000)
+
+Let's fast-forward to the second loop (i = 1). Now yr = 2000 and mo = 2.
+
+When it hits the days_in_month logic, it reaches the critical condition again and calls is_year_leap(2000).
+
+The math changes here. 2000 is divisible by 400, so `is_year_leap` returns True.
+
+Now the condition reads: `if month == 2 and True:`. Both sides are True!
+
+This triggers the block inside the `if` statement, executing `return 29`. The function stops there and returns 29.
+
+Again, it matches `test_results[1]`, printing "OK".
+
+6. Normal Months (Iteration 2 & 3)
+
+What happens with the year 2016, month 1?
+
+The function creates the list.
+
+It reaches `if month == 2`. Since the month is 1, this is immediately False. * Efficiency in action: Since the first part of the `and` is already False, Python doesn't even bother executing `is_year_leap(year)`. It just skips the whole block.
+
+
+It goes straight to the bottom and executes return days[1], which is 31. Matches the test, and prints "OK"
+
+---
+
+```python
+def is_year_leap(year):
+    if year % 4 != 0:
+        return False
+    elif year % 100 != 0:
+        return True
+    elif year % 400 != 0:
+        return False
+    else:
+        return True
+
+def days_in_month(year,month):
+    if year < 1582 or month < 1 or month > 12:
+        return None
+    days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    res  = days[month - 1]
+    if month == 2 and is_year_leap(year):
+        res = 29
+    return res
+
+test_years = [1900, 2000, 2016, 1987]
+test_months = [ 2, 2, 1, 11]
+test_results = [28, 29, 31, 30]
+for i in range(len(test_years)):
+    yr = test_years[i]
+    mo = test_months[i]
+    print(yr,mo,"-> ",end="")
+    result = days_in_month(yr, mo)
+    if result == test_results[i]:
+        print("OK")
+    else:
+        print("Failed")
+```
+Let's analyze this code piece by piece para que veas por qué esta es una solución de muy alto nivel:
+1. The Historical Accuracy (El detalle de 1582)
+
+    The Code: **if year < 1582...** return None
+
+    The Analysis: This is a brilliant catch. El calendario Gregoriano (que introdujo esta matemática exacta para los años bisiestos) se instituyó en octubre de 1582. Before that, the Julian calendar was used, and the rules were different. Al rechazar años menores a 1582 y devolver None, la función se vuelve históricamente precisa. This kind of edge-case handling is exactly what senior developers look for.
+
+2. Standard Zero-Indexing (El manejo clásico de listas)
+
+    The Code: **days = [31, 28, 31...] and res = days[month - 1]**
+
+    The Analysis: Notice that the dummy 0 at the beginning of the list is gone. Como las listas en Python siempre empiezan en el índice 0, el código tiene que compensar restando 1 al mes.
+
+    Si querés saber los días de Enero (month = 1), la función hace 1 - 1 = 0 y busca el valor en el índice 0, que es 31. This is the most standard, conventional way programmers handle arrays in the industry. ### 3. The res Variable (Flujo de retorno único)
+
+    The Code: Crea la variable res y luego hace return res al final.
+
+    The Analysis: En lugar de tener varios return statements cortando la función en distintos lugares (como hicimos en el código anterior), this snippet uses a temporary variable to hold the state.
+
+    Primero, asume que es un mes normal y guarda ese valor en res. Then, it checks the single exception: si es febrero (month == 2) y es año bisiesto (is_year_leap(year)), simplemente sobreescribe esa variable con 29.
+
+    Having a single exit point (return res at the very end) makes the code much easier to debug if things go wrong. ### 4. The Expanded is_year_leap Logic
+
+    Instead of the single-line boolean return we used before, este código vuelve a usar el bloque clásico de if/elif/else.
+
+    Is one better than the other? Not really. La versión de una sola línea (return (year % 4 == 0 and...)) es más concisa y rápida, pero esta versión con elif es extremadamente legible. Any operator or analyst reading this logic during a night shift would immediately understand the mathematical flow.
+
+
