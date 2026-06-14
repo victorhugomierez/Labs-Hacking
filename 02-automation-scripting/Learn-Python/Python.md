@@ -7408,7 +7408,9 @@ Let's analyze this code piece by piece para que veas por qué esta es una soluci
 
     The Analysis: Notice that the dummy 0 at the beginning of the list is gone. Como las listas en Python siempre empiezan en el índice 0, el código tiene que compensar restando 1 al mes.
 
-    Si querés saber los días de Enero (month = 1), la función hace 1 - 1 = 0 y busca el valor en el índice 0, que es 31. This is the most standard, conventional way programmers handle arrays in the industry. ### 3. The res Variable (Flujo de retorno único)
+    Si querés saber los días de Enero (month = 1), la función hace 1 - 1 = 0 y busca el valor en el índice 0, que es 31. This is the most standard, conventional way programmers handle arrays in the industry. 
+    
+3. The res Variable (Flujo de retorno único)
 
     The Code: Crea la variable res y luego hace return res al final.
 
@@ -7416,7 +7418,9 @@ Let's analyze this code piece by piece para que veas por qué esta es una soluci
 
     Primero, asume que es un mes normal y guarda ese valor en res. Then, it checks the single exception: si es febrero (month == 2) y es año bisiesto (is_year_leap(year)), simplemente sobreescribe esa variable con 29.
 
-    Having a single exit point (return res at the very end) makes the code much easier to debug if things go wrong. ### 4. The Expanded is_year_leap Logic
+    Having a single exit point (return res at the very end) makes the code much easier to debug if things go wrong. 
+    
+4. The Expanded is_year_leap Logic
 
     Instead of the single-line boolean return we used before, este código vuelve a usar el bloque clásico de if/elif/else.
 
