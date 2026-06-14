@@ -6873,3 +6873,133 @@ def name(first_name, last_name="Smith"):
 name("Andy") # outputs: Andy Smith
 name("Betty", "Johnson") # outputs: Betty Johnson (the keyword argument replaced by "Johnson")
  ```
+
+
+# 4.3 Section 3 – Returning a result from a function
+
+##  Effects and results: the return instruction
+
+All the previously presented functions have some kind of effect ‒ they produce some text and send it to the console.
+
+Of course, functions ‒ like their mathematical siblings ‒ may have results.
+
+To get functions to return a value (but not only for this purpose) you use the return instruction.
+
+This word gives you a full picture of its capabilities. Note: it's a Python keyword.
+
+The return instruction has two different variants ‒ let's consider them separately.
+
+**return without an expression**
+
+```python
+def happy_new_year(wishes = True):
+    print("Three...")
+    print("Two...")
+    print("One...")
+    if not wishes:
+        return
+
+    print("Happy New Year!")
+
+```
+
+When invoked without any arguments:
+```
+happy_new_year()
+```
+
+ the function causes a little noise ‒ the output will look like this:
+Output
+```
+Three...
+Two...
+One...
+Happy New Year!
+```
+
+Providing False as an argument:
+
+```python
+happy_new_year(False)
+```
+
+will modify the function's behavior ‒ the return instruction will cause its termination just before the wishes ‒ this is the updated output:
+Output
+```
+Three...
+Two...
+One...
+```
+
+**return with an expression**
+
+The second return variant is extended with an expression:
+
+```python
+ def function():
+    return expression
+```
+There are two consequences of using it:
+
+    it causes the immediate termination of the function's execution (nothing new compared to the first variant)
+    moreover, the function will evaluate the expression's value and will return it (hence the name once again) as the function's result.
+
+Yes, we already know ‒ this example isn't really sophisticated:
+
+```python
+def boring_function():
+    return 123
+
+x = boring_function()
+
+print("The boring_function has returned its result. It's:", x)
+
+```
+
+The snippet writes the following text to the console:
+Output
+
+The boring_function has returned its result. It's: 123
+
+Let's investigate it for a while.
+
+Analyze the figure below:
+
+```text
+  def boring_function(): ◄─────────────────────┐
+      return 13 ───┐                           │ (invocation)
+                   │                           │
+  x = boring_function() ───────────────────────┘
+  ▲                |
+  └─ (return the value)
+
+```
+The return instruction, enriched with the expression (the expression is very simple here), "transports" the expression's value to the place where the function has been invoked.
+
+The result may be freely used here, e.g., to be assigned to a variable.
+
+It may also be completely ignored and lost without a trace.
+
+Note, we're not being too polite here - the function returns a value, and we ignore it (we don't use it in any way):
+
+```python
+def boring_function():
+    print("'Boredom Mode' ON.")
+    return 123
+
+print("This lesson is interesting!")
+boring_function()
+print("This lesson is boring...")
+```
+
+The program produces the following output:
+Output
+```
+This lesson is interesting!
+'Boredom Mode' ON.
+This lesson is boring..
+```
+
+##  A few words about None
+
+
