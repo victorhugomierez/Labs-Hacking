@@ -7621,3 +7621,72 @@ Since the processor handles both integers and floating-point numbers (decimals) 
 | Square root ($\sqrt{9}$) | `num ** 0.5` or `num ** (1/2)` | `3.0` |
 | Cubic ($9^3$) | `num ** 3` | `729` |
 | Cube root ($\sqrt[3]{9}$) | `num ** (1/3)` or `num ** 0.3333` | `2.08...` |
+
+
+##  LAB   Converting fuel consumption
+
+A car's fuel consumption may be expressed in many different ways. For example, in Europe, it is shown as the amount of fuel consumed per 100 kilometers.
+
+In the USA, it is shown as the number of miles traveled by a car using one gallon of fuel.
+
+Your task is to write a pair of functions converting l/100km into mpg, and vice versa.
+
+The functions:
+
+    are named liters_100km_to_miles_gallon and miles_gallon_to_liters_100km respectively;
+    take one argument (the value corresponding to their names)
+
+Complete the code in the editor and run it to check whether your output is the same as ours.
+
+Here is some information to help you:
+
+    1 American mile = 1609.344 metres;
+    1 American gallon = 3.785411784 litres. 
+
+```python
+# Constantes de conversión dadas por el enunciado
+MILE_TO_METERS = 1609.344
+GALLON_TO_LITERS = 3.785411784
+
+def liters_100km_to_miles_gallon(liters):
+    # 1. Convertimos los 100 km a millas
+    # 100 km = 100,000 metros -> dividido por los metros de una milla
+    miles = 100000.0 / MILE_TO_METERS
+    
+    # 2. Convertimos los litros consumidos a galones
+    gallons = liters / GALLON_TO_LITERS
+    
+    # 3. Calculamos millas por galón (mpg)
+    return miles / gallons
+
+def miles_gallon_to_liters_100km(miles):
+    # 1. Convertimos las millas recorridas a la escala de 100 km
+    # Pasamos millas a metros -> luego a kilómetros -> y vemos cuántas "unidades de 100km" representa
+    distance_in_100km = (miles * MILE_TO_METERS) / 100000.0
+    
+    # 2. El consumo para esa distancia fue exactamente 1 galón, expresado en litros
+    liters = GALLON_TO_LITERS
+    
+    # 3. Calculamos cuántos litros se gastarían en 100 km completos
+    return liters / distance_in_100km
+
+# Pruebas del enunciado
+print(liters_100km_to_miles_gallon(3.9))
+print(liters_100km_to_miles_gallon(7.5))
+print(liters_100km_to_miles_gallon(10.))
+print(miles_gallon_to_liters_100km(60.3))
+print(miles_gallon_to_liters_100km(31.4))
+print(miles_gallon_to_liters_100km(23.5))
+```
+
+R:
+```
+60.31143162393162
+31.36194444444444
+23.52145833333333
+3.9007393587617467
+7.490910297239916
+10.009131205673757
+```
+
+
