@@ -7579,15 +7579,45 @@ Since we found that 5 is a divisor, the function immediately says: "It's False! 
   │        ▼
   └──── [ c = c + 1 ]
 ```
-
 ### Algorithm Logic
 
-This diagram represents a counter-controlled loop (equivalent to a while or for loop). Its purpose is to print the value stored in the variable 'a' exactly 5 times.
+This diagram represents a counter-controlled loop (equivalent to a `while` or `for` loop). Its purpose is to print the value stored in the variable `a` exactly 5 times.
 
-Initialization: The value of 'a' is read, and a counter 'c' is set to an initial value of 1.
+* **Initialization:** The value of `a` is read, and a counter `c` is set to an initial value of 1.
+* **Condition:** Evaluates whether `c` is less than or equal to 5.
+  * **If true (Yes):** Prints `a`, increments the counter by one (`c = c + 1`), and re-evaluates.
+  * **If false (No):** The flow exits the loop and proceeds to the **Stop** block, ending execution.
 
-Condition: Evaluates whether 'c' is less than or equal to 5.
+---
 
-* If true (Yes), prints 'a', increments the counter by one ('c' = 'c' + 1), and re-evaluates.
+### The Mathematical Logic Behind 0.5
 
-* If false (No), the flow exits the loop and proceeds to the Stop block, ending execution.
+To understand why $0.5$ is a square root, we need to look at the **Law of Fractional Exponents**, which is defined by the following formula:
+
+$$x^{\frac{m}{n}} = \sqrt[n]{x^m}$$
+
+If we apply this rule to the decimal number $0.5$, we know that:
+
+$$0.5 = \frac{1}{2}$$
+
+Therefore, if we raise any number to the power of $\frac{1}{2}$ (or $0.5$), the structure becomes:
+
+$$\text{num}^{0.5} = \text{num}^{\frac{1}{2}} = \sqrt[2]{\text{num}^1} = \sqrt{\text{num}}$$
+
+* The **denominator (2)** becomes the index of the root (square root).
+* The **numerator (1)** becomes the exponent of the number inside.
+
+#### Why does the computer understand it this way?
+
+In programming languages like **Python**, the `**` operator means exponentiation (raising to a power).
+
+Since the processor handles both integers and floating-point numbers (decimals) in the exponent using standard mathematical algorithms, writing `num ** 0.5` is the most direct and fastest way to ask the interpreter to calculate a square root without needing to import external libraries (such as `import math` to use `math.sqrt()`).
+
+#### Quick guide to equivalencies for your code:
+
+| Mathematical Operation | Syntax in Python | Result with `num = 9` |
+| :--- | :--- | :--- |
+| Squaring ($9^2$) | `num ** 2` | `81` |
+| Square root ($\sqrt{9}$) | `num ** 0.5` or `num ** (1/2)` | `3.0` |
+| Cubic ($9^3$) | `num ** 3` | `729` |
+| Cube root ($\sqrt[3]{9}$) | `num ** (1/3)` or `num ** 0.3333` | `2.08...` |
