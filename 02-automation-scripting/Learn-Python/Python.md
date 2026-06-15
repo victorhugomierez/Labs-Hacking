@@ -7276,17 +7276,31 @@ def days_in_month(year, month):
 
 # El resto del código de testeo sigue igual que lo tenías...
 
-test_years = [1900, 2000, 2016, 1987]
-test_months = [2, 2, 1, 11]
-test_results = [28, 29, 31, 30]
+# We define parallel lists to store our test inputs and the expected outputs.
+# Estas listas contienen los casos de prueba: año, mes y el resultado que debería dar.
+# Definition of input data and the expected correct values for comparison
+test_years = [1900, 2000, 2016, 1987] # List of years to test
+test_months = [2, 2, 1, 11]           # List of months corresponding to those years
+test_results = [28, 29, 31, 30]       # List of the expected days for each test case
+
+# Loop that runs as many times as there are items in the list (4 iterations)
 for i in range(len(test_years)):
+    # Assign the current year from the list to 'yr' using the index 'i'
     yr = test_years[i]
+    # Assign the current month from the list to 'mo' using the index 'i'
     mo = test_months[i]
+    # Print the current test case (yr and mo) without starting a new line
     print(yr, mo, "->", end="")
+    
+    # Execute your 'days_in_month' function with the current inputs and save the output
     result = days_in_month(yr, mo)
+    
+    # Check if your function's output matches the expected result from 'test_results'
     if result == test_results[i]:
+        # If they match, print "OK" to indicate the test passed
         print("OK")
     else:
+        # If they don't match, print "Failed" to indicate a logic error
         print("Failed")
 ```
 R:
@@ -7311,11 +7325,11 @@ The call: The code executes **result = days_in_month(1900, 2)**. This is where P
 
 Now we are inside the function. Let's see how it processes the data.
 
-Input Validation: if month < 1 or month > 12: Since 2 is a valid month, the code skips this block and moves forward.
+Input Validation: **if month < 1 or month > 12**: Since 2 is a valid month, the code skips this block and moves forward.
 
 List Creation: Python reads your list of days. Remember that days[2] holds the value 28.
 
-The Critical Condition: if month == 2 and is_year_leap(year):. Python sees that it is indeed month 2, so it must check the second part of the condition. To resolve this, pause execution and jump to your other function, passing the year 1900.
+The Critical Condition: **if month == 2 and is_year_leap(year)**: Python sees that it is indeed month 2, so it must check the second part of the condition. To resolve this, pause execution and jump to your other function, passing the year 1900.
 
 3. The Leap Year Check (The Jump to the First Function)
 
@@ -7385,6 +7399,7 @@ def days_in_month(year,month):
 test_years = [1900, 2000, 2016, 1987]
 test_months = [ 2, 2, 1, 11]
 test_results = [28, 29, 31, 30]
+
 for i in range(len(test_years)):
     yr = test_years[i]
     mo = test_months[i]
@@ -7427,3 +7442,152 @@ Let's analyze this code piece by piece para que veas por qué esta es una soluci
     Is one better than the other? Not really. La versión de una sola línea (return (year % 4 == 0 and...)) es más concisa y rápida, pero esta versión con elif es extremadamente legible. Any operator or analyst reading this logic during a night shift would immediately understand the mathematical flow.
 
 
+## LAB   Day of the year: writing and using your own functions
+
+Your task is to write and test a function which takes three arguments (a year, a month, and a day of the month) and returns the corresponding day of the year, or returns None if any of the arguments is invalid.
+
+Use the previously written and tested functions. Add your own test cases to the code
+
+```python
+ def is_year_leap(year):
+    #
+    # Your code from the previous LAB.
+    #
+    return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+
+def days_in_month(year, month):
+    #
+    # Your code from the previous lab.
+    #
+    if month < 1 or month > 12:
+        return None
+    # Creamos una lista con los días de cada mes.
+    # Usamos un 0 al principio para que el índice 1 coincida con "Enero".
+    days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    # Si es febrero (mes 2) y el año es bisiesto, cambiamos el 28 por 29.
+    if month == 2 and is_year_leap(year):
+        return 29
+    return days[month]
+
+def day_of_year(year, month, day):
+    #
+    # Write your new code here.
+    #
+    # First, validate the day
+    max_days = days_in_month(year, month)
+    if max_days is None or day < 1 or day > max_days:
+        return None
+    # Calculate the sum of days in previous months
+    total_days = 0
+    for m in range(1, month):
+        total_days += days_in_month(year, m)
+
+    # Add the days of the current month
+    return total_days + day
+# Test cases 
+print(day_of_year(2000, 12, 31)) 
+
+```
+
+##  LAB   Prime numbers ‒ how to find them
+
+A natural number is prime if it is greater than 1 and has no divisors other than 1 and itself.
+
+Complicated? Not at all. For example, 8 isn't a prime number, as you can divide it by 2 and 4 (we can't use divisors equal to 1 and 8, as the definition prohibits this).
+
+On the other hand, 7 is a prime number, as we can't find any legal divisors for it.
+
+Your task is to write a function checking whether a number is prime or not.
+
+The function:
+
+    is called is_prime;
+    takes one argument (the value to check)
+    returns True if the argument is a prime number, and False otherwise.
+
+Hint: try to divide the argument by all subsequent values (starting from 2) and check the remainder ‒ if it's zero, your number cannot be a prime; think carefully about when you should stop the process.
+
+If you need to know the square root of any value, you can utilize the ** operator. Remember: the square root of x is the same as x0.5
+
+
+```python
+def is_prime(num):
+    # Prime numbers must be greater than 1
+    if num < 2:
+        return False
+    
+    # We test divisibility from 2 up to the square root of 'num'
+    # Usamos la potencia 0.5 para obtener la raíz cuadrada.
+    limit = int(num ** 0.5)
+    
+    for i in range(2, limit + 1):
+        # If the remainder is 0, it means it's divisible by something other than 1 or itself
+        if num % i == 0:
+            return False
+            
+    # If the loop finishes without finding any divisors, it's prime
+    return True
+
+# Testing the function
+for i in range(1, 20):
+    if is_prime(i + 1):
+        print(i + 1, end=" ")
+print()
+```
+
+R:
+```
+2 3 5 7 11 13 17 19 
+```
+
+Let's trace it step by step with the number 25.
+
+We want to know if 25 is prime.
+
+We calculate its square root: 25 = 5.
+
+Our for loop only needs to test numbers from 2 to 5.
+
+Is 25 divisible by 2? No (it gives 12.5).
+
+Is 25 divisible by 3? No (it gives 8.33).
+
+Is 25 divisible by 4? No (it gives 6.25).
+
+Is 25 divisible by 5? Yes! (it gives 5).
+
+Since we found that 5 is a divisor, the function immediately says: "It's False! It's not prime."
+
+```text
+       [ Start ]
+           │
+           ▼
+       [ Input a ]
+           │
+           ▼
+        [ c = 1 ]
+           │
+           ▼
+  ┌──►◄ Enters Loop
+  │    is c ≤ 5 ? ───( No )───► [ Stop ]
+  │        │
+  │      ( Yes )
+  │        │
+  │        ▼
+  │    [ Print a ]
+  │        │
+  │        ▼
+  └──── [ c = c + 1 ]
+```
+
+### Algorithm Logic
+
+This diagram represents a counter-controlled loop (equivalent to a while or for loop). Its purpose is to print the value stored in the variable 'a' exactly 5 times.
+
+Initialization: The value of 'a' is read, and a counter 'c' is set to an initial value of 1.
+
+Condition: Evaluates whether 'c' is less than or equal to 5.
+
+* If true (Yes), prints 'a', increments the counter by one ('c' = 'c' + 1), and re-evaluates.
+
+* If false (No), the flow exits the loop and proceeds to the Stop block, ending execution.
