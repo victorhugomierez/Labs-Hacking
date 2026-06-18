@@ -7690,3 +7690,341 @@ R:
 ```
 
 
+# 4.4 Section 4 – Scopes in Python
+
+Functions and scopes
+
+Let's start with a definition:
+
+The scope of a name (e.g., a variable name) is the part of a code where the name is properly recognizable.
+
+For example, the scope of a function's parameter is the function itself. The parameter is inaccessible outside the function.
+
+Let's check it. Look at the code in the editor. What will happen when you run it?
+
+```python
+def scope_test():
+    x = 123
+
+
+scope_test()
+print(x)
+```
+
+R:
+```
+Traceback (most recent call last):
+  File "main.py", line 6, in <module>
+    print(x)
+NameError: name 'x' is not defined
+```
+
+The program will fail when run. The error message will read:
+Output
+
+NameError: name 'x' is not defined
+
+This is to be expected.
+
+We're going to conduct some experiments with you to show you how Python constructs scopes, and how you can use these to your benefit.
+
+Let's start by checking whether or not a variable created outside any function is visible inside the functions. In other words, does a variable's name propagate into a function's body?
+
+Look at the code in the editor. Our guinea pig is there.
+
+```python
+def my_function():
+    print("Do I know that variable?", var)
+
+
+var = 1
+my_function()
+print(var)
+```
+
+R:
+```
+Do I know that variable? 1
+1
+```
+
+The answer is: **a variable existing outside a function has scope inside the function's body.**
+
+This rule has a very important exception. Let's try to find it.
+
+Let's make a small change to the code:
+
+```python
+ def my_function():
+    var = 2
+    print("Do I know that variable?", var)
+ 
+ 
+var = 1
+my_function()
+print(var) 
+```
+
+The result has changed, too ‒ the code produces a slightly different output now:
+
+Output
+```
+Do I know that variable? 2
+1
+```
+What's happened?
+
+    the var variable created inside the function is not the same as when defined outside it ‒ it seems that there two different variables of the same name;
+    moreover, the function's variable shadows the variable coming from the outside world.
+
+We can make the previous rule more precise and adequate:
+
+**A variable existing outside a function has scope inside the function's body, excluding those which define a variable of the same name.**
+
+It also means that the **scope of a variable existing outside a function is supported only when getting its value (reading).** Assigning a value forces the creation of the function's own variable.
+
+Make sure you understand this well and carry out your own experiments.
+
+
+# Functions and scopes: the global keyword
+
+Hopefully, you should now have arrived at the following question: does this mean that a function is not able to modify a variable defined outside it? This would create a lot of discomfort.
+
+Fortunately, the answer is no.
+
+There's a special Python method which can extend a variable's scope in a way which includes the function's body (even if you want not only to read the values, but also to modify them).
+
+Such an effect is caused by a keyword named global:
+
+```python
+global name
+global name1, name2, ...
+
+```
+Using this keyword inside a function with the name (or names separated with commas) of a variable (or variables), forces Python to refrain from creating a new variable inside the function ‒ the one accessible from outside will be used instead.
+
+In other words, this name becomes global (it has global scope, and it doesn't matter whether it's the subject of read or assign).
+
+Look at the code in the editor.
+
+```python
+def my_function():
+    global var
+    var = 2
+    print("Do I know that variable?", var)
+
+
+var = 1
+my_function()
+print(var)
+```
+
+We've added global to the function.
+
+The code now outputs:
+Output
+```
+Do I know that variable? 2
+2
+```
+
+This should be sufficient evidence to show that the global keyword does what it promises.
+
+
+## How the function interacts with its arguments
+
+Now let's find out how the function interacts with its arguments.
+
+The code in the editor should teach you something. As you can see, the function changes the value of its parameter. Does the change affect the argument?
+
+```python
+def my_function(n):
+    print("I got", n)
+    n += 1
+    print("I have", n)
+
+
+var = 1
+my_function(var)
+print(var)
+```
+
+R:
+```
+I got 1
+I have 2
+1
+
+```
+
+1
+
+The conclusion is obvious ‒ changing the parameter's value doesn't propagate outside the function (in any case, not when the variable is a scalar, like in the example).
+
+This also means that a function receives the argument's value, not the argument itself. This is true for scalars.
+
+Is it worth checking how it works with lists (do you recall the peculiarities of assigning list slices versus assigning lists as a whole?).
+
+```python
+def my_function(my_list_1):
+    print("Print #1:", my_list_1)
+    print("Print #2:", my_list_2)
+    my_list_1 = [0, 1]
+    print("Print #3:", my_list_1)
+    print("Print #4:", my_list_2)
+
+
+my_list_2 = [2, 3]
+my_function(my_list_2)
+print("Print #5:", my_list_2)
+
+```
+
+R:
+The code's output is:
+Output
+```
+Print #1: [2, 3]
+Print #2: [2, 3]
+Print #3: [0, 1]
+Print #4: [2, 3]
+Print #5: [2, 3]
+```
+It seems that the former rule still works.
+
+Let's follow the execution flow of that script line by line to see what those `print()` statements print and why:
+
+`my_list_2 = [2, 3]` ──> You create a list outside.
+
+`my_function(my_list_2)` ──> You pass that list to the function. Now, the internal variable `my_list_1` points to the same object in memory [2, 3].
+
+Print #1: Prints [2, 3] (because `my_list_1` points there).
+
+Print #2: Prints [2, 3] (because `my_list_2` is a global variable and the function can see it).
+
+Here's the hardcore trick of the exercise:
+5. `my_list_1 = [0, 1]` ──> By using the `=` sign to assign a new complete list, you broke the binding. Now my_list_1 has forgotten the old list and points to a new list in memory, which is [0, 1]. But my_list_2 (outside) still points to [2, 3].
+
+6. Print #3: Prints [0, 1] (the new value of the internal variable).
+
+7. Print #4: Prints [2, 3] (the list outside didn't notice the change).
+
+When the function ends:
+8. Print #5: Prints [2, 3].
+
+---
+
+Finally, can you see the difference in the example below:
+```python
+def my_function(my_list_1):
+    print("Print #1:", my_list_1)
+    print("Print #2:", my_list_2)
+    del my_list_1[0] # Pay attention to this line.
+    print("Print #3:", my_list_1)
+    print("Print #4:", my_list_2)
+ 
+my_list_2 = [2, 3]
+my_function(my_list_2)
+print("Print #5:", my_list_2)
+```
+
+1. my_list_2 = [2, 3] ──> We create the list outside. In memory, there's a list object containing elements 2 and 3.
+
+2. my_function(my_list_2) ──> We pass the list as an argument. Now, inside the function, the parameter my_list_1 points to the exact same list object in memory. Both names (my_list_1 and my_list_2) point to the same location.
+
+3. Print #1: Prints [2, 3].
+
+4. Print #2: Prints [2, 3].
+
+Here comes the key action:
+5. del my_list_1[0] ──> You're telling Python: "Go to the object that my_list_1 points to and delete the element at index 0 (which is number 2)." Since my_list_1 and my_list_2 share the same physical object, the change affects both.
+
+6. Print #3: Prints [3] (because 2 no longer exists).
+
+7. Print #4: Prints [3] (because my_list_2 sees the same modified object).
+
+When the function finishes and we return to the global environment:
+
+8. Print #5: Prints [3].
+
+The Core Difference
+
+I want you to compare this exercise with the previous one because this is the trick they'll test you on in the exam to see if you've got it figured out:
+
+In the previous exercise (my_list_1 = [0, 1]): You used full assignment. That's as if my_list_1 moved to a new house. The original house (my_list_2) remains untouched. Outside change: No value change.
+
+In this exercise (del my_list_1[0]): There was no move. my_list_1 stayed in the same house and broke down a wall from the inside. Since it's the same house, when my_list_2 looks at the living room, the wall is also broken for it. Outside change: The value is mutated.
+
+This is why understanding mutable vs. immutable interaction is vital for your automation scripts. If you modify a list inside a function using methods like `del`, `.append()`, `.pop()`, or `.sort()`, you'll unknowingly alter your global data outside the function.
+
+## Summary
+
+1. A variable that exists outside a function has scope inside the function body (Example 1) unless the function defines a variable of the same name (Example 2, and Example 3), e.g.:
+
+Example 1:
+```python
+var = 2
+ 
+ 
+def mult_by_var(x):
+    return x * var
+ 
+ 
+print(mult_by_var(7)) # outputs: 14
+```
+
+Example 2:
+
+```python
+def mult(x):
+    var = 5
+    return x * var
+ 
+ 
+print(mult(7)) # outputs: 35
+``` 
+
+Example 3:
+
+```python
+def mult(x):
+    var = 7
+    return x * var
+ 
+ 
+var = 3
+print(mult(7)) # outputs: 49 
+```
+
+
+2. A variable that exists inside a function has scope inside the function body (Example 4), e.g.:
+
+Example 4:
+
+```python
+def adding(x):
+    var = 7
+    return x + var
+ 
+ 
+print(adding(4)) # outputs: 11
+print(var) # NameError 
+```
+---
+
+3. You can use the global keyword followed by a variable name to make the variable's scope global, e.g.:
+
+```python
+var = 2
+print(var) # outputs: 2
+ 
+ 
+def return_var():
+    global var
+    var = 5
+    return var
+ 
+ 
+print(return_var()) # outputs: 5
+print(var) # outputs: 5 
+```
