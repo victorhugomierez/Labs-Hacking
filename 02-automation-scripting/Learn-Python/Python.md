@@ -8860,16 +8860,191 @@ chat
 ```
 Note:
 
-    if the key is a string, you have to specify it as a string;
-    keys are case-sensitive: 'Suzy' is something different from 'suzy'.
+*    if the key is a string, you have to specify it as a string;
+*    keys are case-sensitive: 'Suzy' is something different from 'suzy'.
 
-    
+And now the most important news: you mustn't use a non-existent key. Trying something like this:
+
+```python
+print(phone_numbers['president'])
+
+```
+will cause a runtime error. Try to do it.
+
+Fortunately, there's a simple way to avoid such a situation. The **in** operator, together with its companion, **not in**, can salvage this situation.
+
+The following code safely searches for some French words:
+
+```python
+dictionary = {"cat": "chat", "dog": "chien", "horse": "cheval"}
+words = ['cat', 'lion', 'horse']
+
+for word in words:
+    if word in dictionary:
+        print(word, "->", dictionary[word])
+    else:
+        print(word, "is not in dictionary")
+
+```
+
+The code's output looks as follows:
+Output
+```
+cat -> chat
+lion is not in dictionary
+horse -> cheval
+```
+
+  Note  
+
+When you write a big or lengthy expression, it may be a good idea to keep it vertically aligned. This is how you can make your code more readable and more programmer-friendly.
+
+This kind of formatting is called a hanging indent.
 
 
+## Dictionary methods and functions
+The keys() method
+
+Can dictionaries be browsed using the for loop, like lists or tuples?
+
+No and yes.
+
+No, because a dictionary is not a sequence type − the for loop is useless with it.
+
+Yes, because there are simple and very effective tools that can adapt any dictionary to the for loop requirements (in other words, building an intermediate link between the dictionary and a temporary sequence entity).
+
+The first of them is a method named keys(), possessed by each dictionary. The method returns an iterable object consisting of all the keys gathered within the dictionary. Having a group of keys enables you to access the whole dictionary in an easy and handy way.
+
+```python
+dictionary = {"cat": "chat", "dog": "chien", "horse": "cheval"}
+
+for key in dictionary.keys():
+    print(key, "->", dictionary[key])
+
+```
+
+The code's output looks as follows:
+Output
+```
+horse -> cheval
+dog -> chien
+cat -> chat
+```
+
+Let's now have a look at a dictionary method called items(). The method returns tuples (this is the first example where tuples are something more than just an example of themselves) where each tuple is a key-value pair.
+
+This is how it works:
+```python
+dictionary = {"cat": "chat", "dog": "chien", "horse": "cheval"}
+ 
+for english, french in dictionary.items():
+    print(english, "->", french)
+```
+
+Note the way in which the tuple has been used as a for loop variable.
+
+The example prints:
+Output
+```
+cat -> chat
+dog -> chien
+horse -> cheval
+```
+
+## Modifying and adding values
+
+Assigning a new value to an existing key is simple - as dictionaries are fully mutable, there are no obstacles to modifying them.
+
+We're going to replace the value **"chat"** with **"minou"**, which is not very accurate, but it will work well with our example.
 
 
+```python
+dictionary = {"cat": "chat", "dog": "chien", "horse": "cheval"}
+
+dictionary['cat'] = 'minou'
+print(dictionary)
+
+```
 
 
+Do you want it **sorted**? Just enrich the for loop to get such a form:
+```python
+for key in sorted(dictionary.keys()):
+```
+
+
+There is also a method called values(), which works similarly to keys(), but returns values.
+
+Here is a simple example:
+```python
+dictionary = {"cat": "chat", "dog": "chien", "horse": "cheval"}
+ 
+for french in dictionary.values():
+    print(french)
+```
+
+
+As the dictionary is not able to automatically find a key for a given value, the role of this method is rather limited.
+
+
+Adding a new key
+
+Adding a new key-value pair to a dictionary is as simple as changing a value – you only have to assign a value to a new, previously non-existent key.
+
+Note: this is very different behavior compared to lists, which don't allow you to assign values to non-existing indices.
+
+Let's add a new pair of words to the dictionary − a bit weird, but still valid:
+
+dictionary = {"cat": "chat", "dog": "chien", "horse": "cheval"}
+ ```python
+dictionary['swan'] = 'cygne'
+print(dictionary) 
+```
+
+ Note  
+
+You can also insert an item to a dictionary by using the update() method, e.g.:
+
+```python
+dictionary = {"cat": "chat", "dog": "chien", "horse": "cheval"}
+
+dictionary.update({"duck": "canard"})
+print(dictionary)
+
+```
+The short answer is: The power of merging and batch processing.
+
+While square brackets force you to add or modify elements one per line, `.update()` lets you merge an entire dictionary into another in a single step.
+
+## Removing a key
+
+Can you guess how to remove a key from a dictionary?
+
+Note: removing a key will always cause the removal of the associated value. Values cannot exist without their keys.
+
+This is done with the del instruction.
+
+```python
+dictionary = {"cat": "chat", "dog": "chien", "horse": "cheval"}
+
+del dictionary['dog']
+print(dictionary)
+
+```
+
+Note: removing a non-existing key causes an error.
+
+
+To remove the last item in a dictionary, you can use the popitem() method:
+```python
+dictionary = {"cat": "chat", "dog": "chien", "horse": "cheval"}
+ 
+dictionary.popitem()
+print(dictionary) # outputs: {'cat': 'chat', 'dog': 'chien'}
+ ```
+
+
+In the older versions of Python, i.e., before 3.6.7, the popitem() method removes a random item from a dictionary.
 
 
 
