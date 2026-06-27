@@ -9047,6 +9047,186 @@ print(dictionary) # outputs: {'cat': 'chat', 'dog': 'chien'}
 In the older versions of Python, i.e., before 3.6.7, the popitem() method removes a random item from a dictionary.
 
 
+# 4.6.5 Tuples and dictionaries can work together
+
+We've prepared a simple example, showing how tuples and dictionaries can work together.
+
+Let's imagine the following problem:
+
+    you need a program to evaluate the students' average scores;
+    the program should ask for the student's name, followed by her/his single score;
+    the names may be entered in any order;
+    entering an empty name finishes the inputting of the data (note 1: entering an empty score will raise the ValueError exception, but don't worry about that now, you'll see how to handle such cases when we talk about exceptions in the second part of the Python Essentials course series)
+    a list of all names, together with the evaluated average score, should be then emitted.
+
+Look at the code in the editor. This is how to do it.
+```python
+school_class = {}
+
+while True:
+    name = input("Enter the student's name: ")
+    if name == '':
+        break
+    
+    score = int(input("Enter the student's score (0-10): "))
+    if score not in range(0, 11):
+	    break
+    
+    if name in school_class:
+        school_class[name] += (score,)
+    else:
+        school_class[name] = (score,)
+        
+for name in sorted(school_class.keys()):
+    adding = 0
+    counter = 0
+    for score in school_class[name]:
+        adding += score
+        counter += 1
+    print(name, ":", adding / counter)
+```
+
+Now, let's analyze it line by line:
+
+    line 1: create an empty dictionary for the input data; the student's name is used as a key, while all the associated scores are stored in a tuple (the tuple may be a dictionary value - that's not a problem at all)
+    line 3: enter an "infinite" loop (don't worry, it'll break at the right moment)
+    line 4: read the student's name here;
+    line 5-6: if the name is an empty string (), leave the loop;
+    line 8: ask for one of the student's scores (an integer from the range 0-10)
+    line 9-10: if the score entered is not within the range from 0 to 10, leave the loop;
+    line 12-13: if the student's name is already in the dictionary, lengthen the associated tuple with the new score (note the += operator)
+    line 14-15: if this is a new student (unknown to the dictionary), create a new entry - its value is a one-element tuple containing the entered score;
+    line 17: iterate through the sorted students' names;
+    line 18-19: initialize the data needed to evaluate the average (sum and counter)
+    line 20-22: we iterate through the tuple, taking all the subsequent scores and updating the sum, together with the counter;
+    line 23: evaluate and print the student's name and average score.
+
+This is a record of the conversation we had with our program:
+Output
+```
+Enter the student's name: Bob
+Enter the student's score (0-10): 7
+Enter the student's name: Andy
+Enter the student's score (0-10): 3
+nter the student's name: Bob
+Enter the student's score (0-10): 2
+Enter the student's name: Andy
+Enter the student's score (0-10): 10
+Enter the student's name: Andy
+Enter the student's score (0-10): 3
+Enter the student's name: Bob
+Enter the student's score (0-10): 9
+Enter the student's name:
+Andy : 5.333333333333333
+Bob : 6.0
+```
+
+## SECTION SUMMARY
+Complete  Key takeaways: tuples
+Complete Key takeaways: tuples
+
+1. Tuples are ordered and unchangeable (immutable) collections of data. They can be thought of as immutable lists. They are written in round brackets:
+```python
+my_tuple = (1, 2, True, "a string", (3, 4), [5, 6], None)
+print(my_tuple)
+ 
+my_list = [1, 2, True, "a string", (3, 4), [5, 6], None]
+print(my_list)
+``` 
+
+Each tuple element may be of a different type (i.e., integers, strings, booleans, etc.). What is more, tuples can contain other tuples or lists (and the other way round).
+
+2. You can create an empty tuple like this:
+```python
+empty_tuple = ()
+print(type(empty_tuple)) # outputs: <class 'tuple'>
+```
+
+3. A one-element tuple may be created as follows:
+```python
+one_elem_tuple_1 = ("one", ) # Brackets and a comma.
+one_elem_tuple_2 = "one", # No brackets, just a comma.
+```
+
+If you remove the comma, you will tell Python to create a variable, not a tuple:
+```python
+my_tuple_1 = 1,
+print(type(my_tuple_1)) # outputs: <class 'tuple'>
+ 
+my_tuple_2 = 1 # This is not a tuple.
+print(type(my_tuple_2)) # outputs: <class 'int'>
+ ```
+
+4. You can access tuple elements by indexing them:
+```python 
+my_tuple = (1, 2.0, "string", [3, 4], (5, ), True)
+print(my_tuple[3]) # outputs: [3, 4]
+```
+
+5. Tuples are immutable, which means you cannot change their elements (you cannot append tuples, or modify, or remove tuple elements). The following snippet will cause an exception:
+```python 
+my_tuple = (1, 2.0, "string", [3, 4], (5, ), True)
+my_tuple[2] = "guitar" # The TypeError exception will be raised.
+```
+
+However, you can delete a tuple as a whole:
+```python
+my_tuple = 1, 2, 3,
+del my_tuple
+print(my_tuple) # NameError: name 'my_tuple' is not defined
+```
+
+6. You can loop through a tuple elements (Example 1), check if a specific element is (not)present in a tuple (Example 2), use the len() function to check how many elements there are in a tuple (Example 3), or even join/multiply tuples (Example 4):
+
+* Example 1
+```python
+tuple_1 = (1, 2, 3)
+for elem in tuple_1:
+    print(elem)
+```
+* Example 2
+```python
+tuple_2 = (1, 2, 3, 4)
+print(5 in tuple_2)
+print(5 not in tuple_2)
+```
+* Example 3
+```python
+tuple_3 = (1, 2, 3, 4)
+print(len(tuple_3))
+print(5 not in tuple_3)
+* Example 4
+tuple_4 = tuple_1 + tuple_2
+tuple_5 = tuple_3 * 2
+ 
+print(tuple_4)
+print(tuple_5)
+```
+
+###  EXTRA  
+
+You can also create a tuple using a Python built-in function called tuple(). This is particularly useful when you want to convert a certain iterable (e.g., a list, range, string, etc.) to a tuple:
+```python
+my_tuple = tuple((1, 2, "string"))
+print(my_tuple)
+ 
+my_list = [2, 4, 6]
+print(my_list) # outputs: [2, 4, 6]
+print(type(my_list)) # outputs: <class 'list'>
+tup = tuple(my_list)
+print(tup) # outputs: (2, 4, 6)
+print(type(tup)) # outputs: <class 'tuple'>
+ ```
+
+By the same fashion, when you want to convert an iterable to a list, you can use a Python built-in function called **list()**:
+
+```python
+tup = 1, 2, 3,
+my_list = list(tup)
+print(type(my_list)) # outputs: <class 'list'>
+```
+
+# 4.7 Section 7 – Exceptions
 
 
 
