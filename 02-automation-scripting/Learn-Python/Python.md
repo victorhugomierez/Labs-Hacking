@@ -9302,6 +9302,45 @@ except:
 ```
 
 
+## The exception proves the rule
+
+Let's rewrite the code to adopt the Python approach to life:
+
+```python
+try:
+    value = int(input('Enter a natural number: '))
+    print('The reciprocal of', value, 'is', 1/value)        
+except:
+    print('I do not know what to do.')
+```
+
+Let us summarize what we talked about:
+
+    any part of the code placed between try and except is executed in a very special way – any error which occurs here won't terminate program execution. Instead, the control will immediately jump to the first line situated after the except keyword, and no other part of the try branch is executed;
+    the code in the except branch is activated only when an exception has been encountered inside the try block. There is no way to get there by any other means;
+    when either the try block or the except block is executed successfully, the control returns to the normal path of execution, and any code located beyond in the source file is executed as if nothing happened.
+
+Now we want to ask you an innocent question: is ValueError the only way the control could fall into the except branch?
+
+
+## How to deal with more than one exception
+
+
+The answer is obviously "no" – there is more than one possible way to raise an exception. For example, a user may enter zero as an input – can you predict what will happen next?
+
+Yes, you're right – the division placed inside the print() function invocation will raise the ZeroDivisionError. As you may expect, the code's behavior will be the same as in the previous case – the user will see the "I do not know what to do..." message, which seems to be quite reasonable in this context, but it's also possible that you would want to handle this kind of problem in a bit different way.
+
+Is it possible? Of course, it is. There are at least two approaches you can implement here.
+
+The first of them is simple and complicated at the same time: you can just add two separate try blocks, one including the input() function invocation where the ValueError may be raised, and the second devoted to handling possible issues induced by the division. Both these try blocks would have their own except branches, and in effect you will gain full control over two different errors.
+
+This solution is good, but it is a bit lengthy – the code becomes unnecessarily bloated. Moreover, it's not the only danger that awaits you. Note that leaving the first try-except block leaves a lot of uncertainty – you will have to add extra code to ensure that the value the user has entered is safe to use in division. This is how a seemingly simple solution becomes overly complicated.
+
+Fortunately, Python offers a simpler way to deal with this kind of challenge
+
+
+
+
 
 
 
