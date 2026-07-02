@@ -9341,6 +9341,37 @@ Fortunately, Python offers a simpler way to deal with this kind of challenge
 
 ## Two exceptions after one try
 
+Look at the code in the editor. As you can see, we've just introduced the second except branch. This is not the only difference – note that both branches have exception names specified. In this variant, each of the expected exceptions has its own way of handling the error, but it must be emphasized that only one of all branches can intercept the control – if one of the branches is executed, all the other branches remain idle.
+
+
+```python
+try:
+    value = int(input('Enter a natural number: '))
+    print('The reciprocal of', value, 'is', 1/value)        
+except ValueError:
+    print('I do not know what to do.')    
+except ZeroDivisionError:
+    print('Division by zero is not allowed in our Universe.') 
+```
+
+Additionally, the number of except branches is not limited – you can specify as many or as few of them as you need, but don't forget that none of the exceptions can be specified more than once.
+
+
+## The default exception and how to use it
+
+The code has changed again – can you see the difference?
+```python
+try:
+    value = int(input('Enter a natural number: '))
+    print('The reciprocal of', value, 'is', 1/value)        
+except ValueError:
+    print('I do not know what to do.')    
+except ZeroDivisionError:
+    print('Division by zero is not allowed in our Universe.')    
+except:
+    print('Something strange has happened here... Sorry!')
+```
+
 
 
 
