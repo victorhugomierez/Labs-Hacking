@@ -9339,6 +9339,8 @@ This solution is good, but it is a bit lengthy – the code becomes unnecessaril
 Fortunately, Python offers a simpler way to deal with this kind of challenge
 
 
+## Two exceptions after one try
+
 
 
 
