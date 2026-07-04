@@ -9408,6 +9408,102 @@ This exception is raised when the control reaches a line of code which violates 
 
 It's a bad idea to handle this exception in your programs. You should produce code that is free of syntax errors, instead of masking the faults you’ve caused.
 
+##  4.7.8 Why you can’t avoid testing your code
+
+Although we're going to wrap up our exceptional considerations here, don't think it's all Python can offer to help you with begging for forgiveness. Python's exception machinery is far more complex, and its capabilities allow you to build expanded error handling strategies. We'll return to these issues – we promise. Feel free to conduct your experiments and to dive into exceptions yourself.
+
+Now we want to tell you about the second side of the never-ending struggle with errors – the inevitable destiny of a developer's life. As you are not able to avoid making bugs in your code, you must always be ready to seek out and destroy them. Don't bury your head in the sand – ignoring errors won't make them disappear.
+
+An important duty for developers is to test the newly created code, but you must not forget that testing isn't a way to prove that the code is error-free. Paradoxically, the only proof testing can provide is that your code contains errors. Don’t think you can relax after a successful test.
+
+The second important aspect of software testing is strictly psychological. It's a truth known for years that authors – even those who are reliable and self-aware – aren't able to objectively evaluate and verify their works.
+
+This is why each novelist needs an editor and each programmer needs a tester. Some say – a little spitefully but truthfully – that developers test the code to show their perfection, not to find problems that may frustrate them. Testers are free of such dilemmas, and this is why their work is more effective and profitable.
+
+Of course, this doesn't absolve you from being attentive and careful. Test your code as best you can. Don't make the testers' work too easy.
+
+Your primary duty is to ensure that you’ve checked all execution paths your code can go through. Does that sound mysterious? Nothing of the kind!
+Tracing the execution paths
+
+Now look at the code in the editor. Suppose you've just finished writing it.
+
+```python
+temperature = float(input('Enter current temperature:'))
+
+if temperature > 0:
+    print("Above zero")
+elif temperature < 0:
+    print("Below zero")
+else:
+    print("Zero")
+```
+
+There are three independent execution paths in the code – can you see them? They are determined by the if-elif-else statements. Of course, the execution paths can be built by many other statements, like loops, or even try-except blocks.
+
+If you're going to test your code fairly and you want to sleep soundly and to dream without nightmares (nightmares about bugs can be devastating for a developer’s performance) you are obliged to prepare a test data set that will force your code to negotiate all possible paths.
+
+In our example, the set should contain at least three float values: one positive, one negative, and zero. 
+
+## 4.7.9 When Python closes its eyes
+
+Such a test is crucial. We want to show you why you mustn't skip it. Look at the code in the editor.
+
+```python
+temperature = float(input('Enter current temperature:'))
+
+if temperature > 0:
+    print("Above zero")
+elif temperature < 0:
+    prin("Below zero")
+else:
+    print("Zero")
+```
+
+We intentionally introduced an error into the code – we hope your watchful eyes noticed it immediately. Yes, we removed just one letter and in effect, the valid print() function invocation turns into the obviously invalid clause "prin()". There is no such function as "prin()" in our program's scope, but is it really obvious for Python?
+
+Run the code and enter 0.
+
+As you can see, the code finishes its execution without any obstacles.
+
+How is that possible? Why does Python overlook such an evident developer mistake?
+
+## 4.7.10 Tests, testing, and testers
+
+The answer is simpler than you may expect, and a bit disappointing, too. Python – as you know for sure – is an interpreted language. This means that the source code is parsed and executed at the same time. Consequently, Python may not have time to analyze the code lines which aren't subject to execution. As an old developer's saying states: "it's a feature, not a bug" (please don't use this phrase to justify your code's weird behavior).
+
+Do you understand now why passing through all execution paths is so vital and inevitable?
+
+Let’s assume that you complete your code and the tests you've made are successful. You deliver your code to the testers and – fortunately! – they found some bugs in it. We’re using the word "fortunately" completely consciously. You need to accept that, firstly, testers are the developer’s best friends – don't treat the bugs they discover as an offense or a malignancy; and, secondly, each bug the testers find is a bug that won't affect the users. Both factors are valuable and worth your attention.
+
+You already know that your code contains a bug or bugs (the latter is more likely). How do you locate them and how do you fix your code?
+## Bug vs. debug
+
+The basic measure a developer can use against bugs is – unsurprisingly – a debugger, while the process during which bugs are removed from the code is called debugging. According to an old joke, debugging is a complicated mystery game in which you are simultaneously the murderer, the detective, and – the most painful part of the intrigue – the victim. Are you ready to play all these roles? Then you must arm yourself with a debugger.
+
+A debugger is a specialized piece of software that can control how your program is executed. Using the debugger, you can execute your code line-by-line, inspect all the variables' states and change their values on demand without modifying the source code, stop program execution when certain conditions are or aren't met, and do lots of other useful tasks.
+
+We can say that every IDE is equipped with a more or less advanced debugger. Even IDLE has one, although you may find its handling a bit complicated and troublesome. If you want to make use of IDLE's integrated debugger, you should activate it using the “Debug” entry in the main IDLE window menu bar. It's the start point for all debugger facilities.
+
+Click here to see the screenshots that show the IDLE debugger during a simple debugging session. (Thank you, University of Kentucky!)
+
+You can see how the debugger visualizes variables and parameter values, and note the call stack which shows the chain of invocations leading from the currently executed function to the interpreter level.
+
+If you want to know more about the IDLE debugger, consult the IDLE documentation.
+
+
+## 4.7.11 print debugging
+
+This form of debugging, which can be applied to your code using any kind of debugger, is sometimes called interactive debugging. The meaning of the term is self-explanatory – the process needs your (the developer's) interaction to be performed.
+
+Some other debugging techniques can be used to hunt bugs. It's possible that you aren't able or don't want to use a debugger (the reasons may vary). Are you helpless then? Absolutely not!
+
+You may use one of the simplest and the oldest (but still useful) debugging tactics known as print debugging. The name speaks for itself – you just insert several additional print() invocations inside your code to output data which illustrates the path your code is currently negotiating. You can output the values of the variables which may affect the execution.
+
+These printouts may output meaningful text like "I am here", "I entered the foo() function", "The result is 0", or they may contain sequences of characters that are legible only to you. Please don't use obscene or indecent words for the purpose, even though you may feel a strong temptation – your reputation can be ruined in a moment if these antics leak to the public.
+
+As you can see, this kind of debugging isn't really interactive at all, or is interactive only to a small extent, when you decide to apply the input() function to stop or delay code execution.
+
+After the bugs are found and removed, the additional printouts may be commented out or removed – it's up to you. Don't let them be executed in the final code – they may confuse both testers and users, and bring bad karma down upon you.
 
 
 
