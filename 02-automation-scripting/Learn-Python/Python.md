@@ -9507,4 +9507,130 @@ After the bugs are found and removed, the additional printouts may be commented 
 
 
 
+# Final Proyect
 
+```python
+from random import randrange
+
+def display_board(board):
+    # La función acepta un parámetro el cual contiene el estado actual del tablero
+    # y lo muestra en la consola con el formato exacto requerido.
+    for row in board:
+        print("+-------+-------+-------+")
+        print("|       |       |       |")
+        print(f"|   {row[0]}   |   {row[1]}   |   {row[2]}   |")
+        print("|       |       |       |")
+    print("+-------+-------+-------+")
+
+
+def enter_move(board):
+    # La función acepta el estado actual del tablero, pregunta al usuario por su movimiento,
+    # verifica la entrada y actualiza el tablero ('O') según la decisión del usuario.
+    while True:
+        try:
+            move = int(input("Enter your move: "))
+            if move < 1 or move > 9:
+                print("Invalid move! Choose a number between 1 and 9.")
+                continue
+            
+            # Convertir el número 1-9 a coordenadas de la matriz [row][column]
+            row = (move - 1) // 3
+            col = (move - 1) % 3
+            
+            # Verificar si la casilla está libre (si contiene un número en vez de 'X' o 'O')
+            if board[row][col] not in ['X', 'O']:
+                board[row][col] = 'O'
+                break
+            else:
+                print("That square is already occupied! Try another one.")
+        except ValueError:
+            print("Please enter a valid integer.")
+
+
+def make_list_of_free_fields(board):
+    # La función examina el tablero y construye una lista de todos los cuadros libres.
+    # Cada elemento de la lista es una tupla con la forma (row, column).
+    free_fields = []
+    for r in range(3):
+        for c in range(3):
+            if board[r][c] not in ['X', 'O']:
+                free_fields.append((r, c))
+    return free_fields
+
+
+def victory_for(board, sign):
+    # La función analiza el estado del tablero para verificar si el jugador utilizando
+    # las 'X' o las 'O' ha ganado el juego.
+    
+    # 1. Comprobar Filas
+    for r in range(3):
+        if board[r][0] == board[r][1] == board[r][2] == sign:
+            return True
+            
+    # 2. Comprobar Columnas
+    for c in range(3):
+        if board[0][c] == board[1][c] == board[2][c] == sign:
+            return True
+            
+    # 3. Comprobar Diagonales
+    if board[0][0] == board[1][1] == board[2][2] == sign:
+        return True
+    if board[0][2] == board[1][1] == board[2][0] == sign:
+        return True
+        
+    return False
+
+
+def draw_move(board):
+    # La función dibuja el movimiento de la computadora y actualiza el tablero ('X').
+    free_fields = make_list_of_free_fields(board)
+    
+    if free_fields:
+        # Elige un índice aleatorio de la lista de campos libres
+        random_index = randrange(len(free_fields))
+        row, col = free_fields[random_index]
+        board[row][col] = 'X'
+
+
+# --- FLUJO PRINCIPAL DEL JUEGO ---
+
+# 1. Inicializar el tablero con los números del 1 al 9 como strings/ints
+board = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+
+# 2. Requisito especial: La computadora hace el primer movimiento SIEMPRE en el centro (casilla 5)
+board[1][1] = 'X'
+
+# Mostrar el tablero inicial
+display_board(board)
+
+# 3. Bucle principal del juego
+while True:
+    # --- Turno del Usuario ---
+    enter_move(board)
+    display_board(board)
+    
+    if victory_for(board, 'O'):
+        print("You won!")
+        break
+        
+    if not make_list_of_free_fields(board):
+        print("It's a tie!")
+        break
+
+    # --- Turno de la Computadora ---
+    print("Computer's move:")
+    draw_move(board)
+    display_board(board)
+    
+    if victory_for(board, 'X'):
+        print("Computer won!")
+        break
+        
+    if not make_list_of_free_fields(board):
+        print("It's a tie!")
+        break
+```
